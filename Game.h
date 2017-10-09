@@ -15,7 +15,12 @@ private:
     vector<Area> areas; // areas has only non-changeable information
 
     void loadAreas();
+    void loadItems();
     bool step();
+    void parseInput(); //TODO:
+                        // for movement: parse direction, check with the player's current Zone
+                        // if direction is ok, then tell Player to move to the pointer that we get from
+                        // the departure zone's corresponding direction
 };
 
 
