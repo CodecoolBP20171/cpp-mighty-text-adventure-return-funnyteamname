@@ -16,6 +16,7 @@ void Player::changeHealth(short &damage) {
 
 void Player::moveTo(Zone *destination) {
     pPosition = destination;
+    *pPosition.setVisited(true);
 }
 
 Player::~Player() {
