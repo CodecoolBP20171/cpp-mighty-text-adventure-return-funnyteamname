@@ -10,7 +10,7 @@
 
 class Player {
 public:
-    void attack(Enemy enemy);
+    void attack(Enemy * enemy);
     void moveTo(Zone* destination);
     void equip(Item* itemToEquip );
     void unequip(Item* itemToUnequip);
@@ -18,9 +18,10 @@ public:
     void changeHealth(short &damage);
     void use(Item itemToUse);
     void pickup(Item itemToPickup);
+    Enemy * getNearbyEnemy(std::string * enemyName);
 private:
     std::vector<Item> inventory;
-    std::map<enum type, Item> equipped;
+    // std::map<enum type, Item> equipped;
     Zone* pPosition;
     short health;
     double invWeightLimit;

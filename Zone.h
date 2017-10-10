@@ -11,6 +11,7 @@ class Zone {
 public:
     void setDescription(Area* area);
     Zone* getDirection(char direction);
+    Enemy* getEnemy(std::string * enemy);
 private:
     Area* description;
     Zone* north;

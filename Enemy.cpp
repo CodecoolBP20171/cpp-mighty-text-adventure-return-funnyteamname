@@ -3,3 +3,7 @@
 //
 
 #include "Enemy.h"
+
+std::string Enemy::getName() {
+    return this->name;
+}
