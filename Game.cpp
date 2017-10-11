@@ -99,37 +99,49 @@ void Game::handleCommand() {
 
     switch (nextCommand.action) {
         case ActionType::ATTACK:
-            player.attack(player.getNearbyEnemy(&nextCommand.listOfObjects[0]));
+            std::cout << "player attacks: " << nextCommand.listOfObjects[0] << std::endl;
+            // player.attack(player.getNearbyEnemy(&nextCommand.listOfObjects[0]));
             break;
         case ActionType::USE:
-            player.use(player.getItemFromInventory(&nextCommand.listOfObjects[0]));
+            std::cout << "player uses: " << nextCommand.listOfObjects[0] << std::endl;
+            // player.use(player.getItemFromInventory(&nextCommand.listOfObjects[0]));
             break;
         case ActionType::DROP:
+            std::cout << "player drops: " << std::endl;
             for (int i = 0; i < nextCommand.listOfObjects.size() ; ++i) {
-                player.drop(player.getItemFromInventory(&nextCommand.listOfObjects[i]));
+                std::cout << "object: " << nextCommand.listOfObjects[i] << std::endl;
+                // player.drop(player.getItemFromInventory(&nextCommand.listOfObjects[i]));
             }
             break;
         case ActionType::EQUIP:
+            std::cout << "player equips: " << std::endl;
             for (int j = 0; j < nextCommand.listOfObjects.size() ; ++j) {
-                player.equip(player.getItemFromInventory(&nextCommand.listOfObjects[j]));
+                std::cout << "object: " << nextCommand.listOfObjects[j] << std::endl;
+                //player.equip(player.getItemFromInventory(&nextCommand.listOfObjects[j]));
             }
             break;
         case ActionType::UNEQUIP:
+            std::cout << "player unequips: " << std::endl;
             for (int k = 0; k < nextCommand.listOfObjects.size() ; ++k) {
-                player.unequip(player.getItemFromInventory(&nextCommand.listOfObjects[k]));
+                std::cout << "object: " << nextCommand.listOfObjects[k] << std::endl;
+                //player.unequip(player.getItemFromInventory(&nextCommand.listOfObjects[k]));
             }
             break;
         case ActionType::NORTH:
-            player.moveTo(ActionType::NORTH);
+            std::cout << "player goes north: " << std::endl;
+            //player.moveTo(ActionType::NORTH);
             break;
         case ActionType::EAST:
-            player.moveTo(ActionType::EAST);
+            std::cout << "player goes east: " << std::endl;
+            //player.moveTo(ActionType::EAST);
             break;
         case ActionType::SOUTH:
-            player.moveTo(ActionType::SOUTH);
+            std::cout << "player goes south: " << std::endl;
+            //player.moveTo(ActionType::SOUTH);
             break;
         case ActionType::WEST:
-            player.moveTo(ActionType::WEST);
+            std::cout << "player goes west: " << std::endl;
+            //player.moveTo(ActionType::WEST);
             break;
     }
 }

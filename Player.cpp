@@ -3,3 +3,8 @@
 //
 
 #include "Player.h"
+#include <iostream>
+
+Enemy *Player::getNearbyEnemy(std::string * enemyName) {
+    //return pPosition->getEnemy(std::string * enemyName);
+}

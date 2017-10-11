@@ -21,6 +21,7 @@ public:
     void pickup(Item itemToPickup);
     Enemy * getNearbyEnemy(std::string * enemyName);
     Item * getItemFromInventory(std::string * itemName);
+
 private:
     std::vector<Item> inventory;
     // std::map<enum type, Item> equipped;
