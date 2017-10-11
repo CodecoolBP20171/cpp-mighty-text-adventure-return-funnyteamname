@@ -48,6 +48,8 @@ private:
     ActionType parseAction(std::string* action);
     void handleCommand();
     bool isCommandValid();
+    bool isCommandADirection();
+    bool isDirectionValid(ActionType);
     Command nextCommand;
 };
 

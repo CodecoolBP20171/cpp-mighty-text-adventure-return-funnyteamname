@@ -97,7 +97,7 @@ void Game::parseInput() {
             }
         }
     } while(!isCommandValid());
-    std::cout << "entry was valid\n";
+    // std::cout << "entry was valid\n";
     std::cout << "action: " << static_cast<int>(nextCommand.action) << endl;
     for(auto& object: nextCommand.listOfObjects){
         std::cout << "object: " << object << std::endl;
@@ -119,17 +119,17 @@ ActionType Game::parseAction(std::string *word) {
 
 bool Game::isCommandValid() {
     // TODO will need a function to check if the objects to interact with are valid!
-    if(nextCommand.action == ActionType::INVALID_ENTRY) return false;
+    if(nextCommand.action == ActionType::INVALID_ENTRY) {
+        std::cout << "Invalid command. Type \"help\" to get further information on the available commands." << std::endl;
+      return false;
+    }
     if(nextCommand.action == ActionType::ATTACK && nextCommand.listOfObjects.size() != 1) return false;
     if(nextCommand.action == ActionType::EQUIP && nextCommand.listOfObjects.empty()) return false;
     if(nextCommand.action == ActionType::UNEQUIP && nextCommand.listOfObjects.empty()) return false;
     if(nextCommand.action == ActionType::DROP && nextCommand.listOfObjects.empty()) return false;
     if(nextCommand.action == ActionType::USE && nextCommand.listOfObjects.size() != 1) return false;
-    return !((nextCommand.action == ActionType::NORTH ||
-              nextCommand.action == ActionType::EAST ||
-              nextCommand.action == ActionType::SOUTH ||
-              nextCommand.action == ActionType::WEST) &&
-             !nextCommand.listOfObjects.empty());
+
+    return isCommandADirection() && nextCommand.listOfObjects.empty() && isDirectionValid(nextCommand.action);
 }
 
 void Game::handleCommand() {
@@ -165,20 +165,45 @@ void Game::handleCommand() {
             }
             break;
         case ActionType::NORTH:
-            std::cout << "player goes north: " << std::endl;
-            //player.moveTo(ActionType::NORTH);
+            std::cout << "player goes north... " << std::endl;
+            player.moveTo(ActionType::NORTH);
             break;
         case ActionType::EAST:
-            std::cout << "player goes east: " << std::endl;
-            //player.moveTo(ActionType::EAST);
+            std::cout << "player goes east... " << std::endl;
+            player.moveTo(ActionType::EAST);
             break;
         case ActionType::SOUTH:
-            std::cout << "player goes south: " << std::endl;
-            //player.moveTo(ActionType::SOUTH);
+            std::cout << "player goes south... " << std::endl;
+            player.moveTo(ActionType::SOUTH);
             break;
         case ActionType::WEST:
-            std::cout << "player goes west: " << std::endl;
-            //player.moveTo(ActionType::WEST);
+            std::cout << "player goes west... " << std::endl;
+            player.moveTo(ActionType::WEST);
             break;
     }
 }
+
+bool Game::isCommandADirection() {
+    return (nextCommand.action == ActionType::NORTH ||
+            nextCommand.action == ActionType::EAST ||
+            nextCommand.action == ActionType::SOUTH ||
+            nextCommand.action == ActionType::WEST );
+}
+
+bool Game::isDirectionValid(ActionType direction) {
+    std::string dirAsStr;
+    switch (direction) {
+        case ActionType::NORTH: dirAsStr = "North"; break;
+        case ActionType::EAST: dirAsStr = "East"; break;
+        case ActionType::SOUTH: dirAsStr = "South"; break;
+        case ActionType::WEST: dirAsStr = "West"; break;
+    }
+    if(nullptr == player.getPosition()->getZone(direction)) {
+        std::cout << "You cannot go " << dirAsStr << " from here..." << std::endl;
+        return false;
+    }
+    return true;
+
+}
+
+
