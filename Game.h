@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "ActionType.h"
 
 using namespace std;
 
@@ -13,9 +14,11 @@ class Game {
 public:
     void init();
     void run();
+    /*
     enum class ActionType{
         INVALID_ENTRY, NORTH, SOUTH, EAST, WEST, ATTACK, EQUIP, UNEQUIP, DROP, USE
     };
+     */
     struct Command {
         ActionType action;
         vector<std::string> listOfObjects;
