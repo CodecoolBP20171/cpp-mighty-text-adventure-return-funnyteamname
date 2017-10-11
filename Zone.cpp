@@ -56,3 +56,8 @@ void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
 }
+
+void Zone::addToZoneInventory(Item * itemToAdd) {
+    this->inventory.emplace_back(itemToAdd);
+}
+

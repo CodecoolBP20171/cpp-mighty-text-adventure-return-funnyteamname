@@ -27,14 +27,21 @@ public:
 
     virtual ~Player();
 
+    struct Inventory {
+        double invWeight;
+        Item* armor;
+        Item* weapon;
+        Item* shield;
+        vector<Item*> backpack;
+    };
+
 private:
     const int MAX_HEALTH = 100;
     const double INV_WEIGHT_LIMIT = 50.00;
 
-    std::vector<Item> inventory;
+    Inventory inventory;
     Zone* pPosition;
     short health;
-    double invWeight;
 };
 
 

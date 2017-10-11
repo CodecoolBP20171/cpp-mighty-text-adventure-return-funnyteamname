@@ -38,6 +38,7 @@ private:
     void loadAreas();
     void loadZones();
     void loadItems();
+    void randomizeItemLocations();
     void linkZones();
     void linkTwo(Directions, int , int );
     bool step();

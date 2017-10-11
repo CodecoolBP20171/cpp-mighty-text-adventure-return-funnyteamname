@@ -9,7 +9,7 @@ Player::Player() {}
 
 Player::Player(Zone *pPosition) : pPosition(pPosition) {
     health = MAX_HEALTH;
-    invWeight = 0.00;
+    inventory.invWeight = 0.00;
 
 }
 
@@ -35,6 +35,10 @@ Zone* Player::getPosition() {
 }
 
 Player::~Player() {
+}
+
+void Player::pickup(Item itemToPickup) {
+
 }
 
 /*Level 1 task - some pointer needed & subclasses.

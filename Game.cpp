@@ -5,6 +5,7 @@
 #include "vector"
 #include "Player.h"
 #include "ActionType.h"
+#include <time.h>
 
 
 void Game::loadZones() {
@@ -38,12 +39,51 @@ void Game::linkZones() {
 
 }
 
+void Game::loadItems() {
+    Item swordWooden(3.0,
+                     "Wooden sword",
+                     "A near-useless unremarkable wooden sword. Mostly useful for training and not much else",
+                     ItemType::WEAPON, 2, 0);
+    items.emplace_back(swordWooden);
+
+    Item steelSword(8.0,
+                    "Fine Steel sword",
+                    "A sharp steel sword of excellent craftsmanship.",
+                    ItemType::WEAPON, 8, 0);
+    items.emplace_back(steelSword);
+
+    Item chainArmor(10.0,
+                    "Chainmail armor",
+                    "Mediocre armor, capable of providing some protection in battle at the cost of some added weight",
+                    ItemType::ARMOR, 0, 10);
+    items.emplace_back(chainArmor);
+
+    Item kiteShield(15.0,
+                    "Large Kite Shield",
+                    "An old large sturdy wooden kite shield. The front is covered in flecks of blue paint. It has a wooden handle in the back and leather straps hold the arm in place",
+                    ItemType::SHIELD, 0, 20);
+    items.emplace_back(kiteShield);
+
+    Item potionPalinka(1.0,
+                       "Magical Pálinka of Forgetfulness",
+                       "Magical potion brewed with ancient wisdom, legend has it, that it makes the imbiber see the world differently...",
+                       ItemType::CONSUMABLE, 0, 0);
+    items.emplace_back(potionPalinka);
+
+    Item brassKey(0.3,
+                  "Brass Key",
+                  "An ornate brass key designed to unlock a rough, clumsy lock. A gate perhaps?",
+                  ItemType::KEY, 0, 0);
+    items.emplace_back(brassKey);
+}
+
 void Game::init()
 {
     loadAreas();
     loadZones();
     linkZones();
-
+    loadItems();
+    randomizeItemLocations();
     player.setPosition(startZone);
 }
 
@@ -205,5 +245,14 @@ bool Game::isDirectionValid(ActionType direction) {
     return true;
 
 }
+
+void Game::randomizeItemLocations() {
+    for (int i = 0; i < items.size(); ++i) {
+        srand(time(NULL));
+        int randomIndex = rand() % (zones.size()-1);
+        zones[randomIndex].addToZoneInventory(&items[i]);
+    }
+}
+
 
 

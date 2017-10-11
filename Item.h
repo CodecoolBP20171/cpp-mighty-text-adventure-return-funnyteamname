@@ -2,19 +2,32 @@
 #define CPP_2ND_TW_MIGHTY_TEXT_ADVENTURE_ITEM_H
 
 #include "iostream"
-
+#include "ItemType.h"
 class Item {
 public:
-    std::string getName();
+    Item();
 
+    Item(double weight, const std::string &name, const std::string &description, ItemType type, short attack,
+         short defense);
+
+    std::string* getName();
+    double* getWeight();
+    std::string &getDescription();
+    short* getAttack();
+    short* getDefense();
+
+    void setWeight(double weight);
+    void setName(const std::string &name);
+    void setDescription(const std::string &description);
+    void setAttack(short attack);
+    void setDefense(short defense);
+    void setType(ItemType);
 
 private:
     double weight;
     std::string name;
     std::string description;
-    bool equippable;
-    bool consumable;
-    // enum type;
+    ItemType type;
     short attack;
     short defense;
 };

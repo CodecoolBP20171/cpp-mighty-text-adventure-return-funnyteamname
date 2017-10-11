@@ -13,16 +13,18 @@ enum Directions{NORTH, EAST, SOUTH, WEST, endMark};
 class Zone {
 public:
     Zone(Area *description);
-    Enemy* getEnemy(std::string * enemy);
+    Enemy* getEnemy(std::string*);
+    Item* getItem(std::string*);
     Zone* getZone(ActionType);
     void setZone (Directions , Zone *);
     void show();
     void setVisited(bool);
+    void addToZoneInventory(Item*);
 
 private:
     Area* description;
     Zone* directions[4];
-    std::vector<Item> inventory;
+    std::vector<Item*> inventory;
     bool visited;
     std::vector<Enemy> enemies;
 };
