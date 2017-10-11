@@ -61,8 +61,10 @@ void Game::loadAreas()
 void Game::run()
 {
     while(!step()){
+        player.getPosition()->show();
         parseInput();
         handleCommand();
+
         std::cout << "end of game loop \n";
     }
 }

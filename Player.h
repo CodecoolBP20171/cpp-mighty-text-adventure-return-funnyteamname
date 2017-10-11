@@ -23,7 +23,7 @@ public:
     void setPosition(Zone*);
     Enemy * getNearbyEnemy(std::string * enemyName);
     Item * getItemFromInventory(std::string * itemName);
-    Zone getPosition();
+    Zone* getPosition();
 
     virtual ~Player();
 

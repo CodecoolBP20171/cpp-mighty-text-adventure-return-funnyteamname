@@ -30,8 +30,8 @@ void Player::moveTo(ActionType destination) {
     (*pPosition).setVisited(true);
 }
 
-Zone Player::getPosition() {
-    return *pPosition;
+Zone* Player::getPosition() {
+    return pPosition;
 }
 
 Player::~Player() {
@@ -44,7 +44,7 @@ Player::~Player() {
         inventory.emplace_back(itemToPickup);
         invWeight += itemToPickup.getWeight();
     } else {
-        std::cout << "You are too weak to carry this item. Try to drop something form your inventory or go to the gym." << std::end;
+        std::cout << or go to the gym." << std::end;
 
     }
 }
