@@ -24,6 +24,7 @@ public:
     Enemy * getNearbyEnemy(std::string * enemyName);
     Item * getItemFromInventory(std::string * itemName);
     Zone* getPosition();
+    short getHealth();
 
     virtual ~Player();
 

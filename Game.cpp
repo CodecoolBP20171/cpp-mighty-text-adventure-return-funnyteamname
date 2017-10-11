@@ -60,7 +60,7 @@ void Game::loadAreas()
 
 void Game::run()
 {
-    while(!step()){
+    while(Game::isGameOn()){
         player.getPosition()->show();
         parseInput();
         handleCommand();
@@ -69,9 +69,9 @@ void Game::run()
     }
 }
 
-bool Game::step()
+bool Game::isGameOn()
 {
-    return false;
+    return player.getHealth() > 0 && player.getPosition() != endZone;
 }
 
 void Game::parseInput() {
@@ -166,19 +166,19 @@ void Game::handleCommand() {
             break;
         case ActionType::NORTH:
             std::cout << "player goes north: " << std::endl;
-            //player.moveTo(ActionType::NORTH);
+            player.moveTo(ActionType::NORTH);
             break;
         case ActionType::EAST:
             std::cout << "player goes east: " << std::endl;
-            //player.moveTo(ActionType::EAST);
+            player.moveTo(ActionType::EAST);
             break;
         case ActionType::SOUTH:
             std::cout << "player goes south: " << std::endl;
-            //player.moveTo(ActionType::SOUTH);
+            player.moveTo(ActionType::SOUTH);
             break;
         case ActionType::WEST:
             std::cout << "player goes west: " << std::endl;
-            //player.moveTo(ActionType::WEST);
+            player.moveTo(ActionType::WEST);
             break;
     }
 }
