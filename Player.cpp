@@ -14,9 +14,14 @@ void Player::changeHealth(short &damage) {
     health += damage;
 }
 
-void Player::moveTo(Zone *destination) {
-    pPosition = destination;
+void Player::moveTo(Zone & destination) {
+    pPosition = & destination;
+
     *pPosition.setVisited(true);
+}
+
+Zone Player::getPosition() {
+    return *pPosition;
 }
 
 Player::~Player() {
