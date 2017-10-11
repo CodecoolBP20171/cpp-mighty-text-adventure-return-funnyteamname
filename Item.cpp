@@ -53,3 +53,7 @@ Item::Item() {}
 Item::Item(double weight, const std::string &name, const std::string &description, ItemType type, short attack,
            short defense) : weight(weight), name(name), description(description), type(type), attack(attack),
                             defense(defense) {}
+
+ItemType Item::getType() {
+    return this->type;
+}

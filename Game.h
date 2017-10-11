@@ -23,7 +23,7 @@ public:
      */
     struct Command {
         ActionType action;
-        vector<std::string> listOfObjects;
+        std::string object;
     };
 
 private:
@@ -51,6 +51,7 @@ private:
     bool isCommandValid();
     bool isCommandADirection();
     bool isDirectionValid(ActionType);
+    bool isItemPickupable(std::string* itemName);
     Command nextCommand;
 };
 

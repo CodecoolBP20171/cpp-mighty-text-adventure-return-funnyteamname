@@ -55,9 +55,38 @@ Zone* Zone::getZone(ActionType direction) {
 void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
+    for(Item* item: inventory) {
+        std::cout << "item: " << *(item->getName()) << std::endl;
+    }
 }
 
 void Zone::addToZoneInventory(Item * itemToAdd) {
     this->inventory.emplace_back(itemToAdd);
 }
+
+Item *Zone::getItem(std::string * itemName) {
+    for(Item* item: inventory) {
+        std::string existingItem = *(item->getName());
+        for (int i = 0; i < existingItem.length(); ++i) {
+            existingItem[i] = std::tolower(existingItem[i]);
+        }
+        if(existingItem == *itemName) {
+            return item;
+        }
+    }
+    return nullptr;
+}
+
+void Zone::removeFromZoneInventory(std::string *itemName) {
+    for (int i = 0; i < inventory.size() ; ++i) {
+        std::string existingItem = *(inventory[i]->getName());
+        for (int i = 0; i < existingItem.length(); ++i) {
+            existingItem[i] = std::tolower(existingItem[i]);
+        }
+        if(existingItem == *itemName) {
+            inventory.erase(inventory.begin()+i);
+        }
+    }
+}
+
 

@@ -15,6 +15,7 @@ public:
     std::string &getDescription();
     short* getAttack();
     short* getDefense();
+    ItemType getType();
 
     void setWeight(double weight);
     void setName(const std::string &name);

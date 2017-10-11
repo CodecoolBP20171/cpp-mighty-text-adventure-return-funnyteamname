@@ -14,30 +14,35 @@ public:
     Player();
     void attack(Enemy * enemy);
     void moveTo(ActionType direction);
-    void equip(Item* itemToEquip );
-    void unequip(Item* itemToUnequip);
+    void equip(std::string* itemName);
+    void unequip(std::string* itemName);
     void drop(Item* itemToDrop);
     void changeHealth(short &damage);
     void use(Item* itemToUse);
-    void pickup(Item itemToPickup);
+    void pickup(std::string * item);
     void setPosition(Zone*);
     Enemy * getNearbyEnemy(std::string * enemyName);
     Item * getItemFromInventory(std::string * itemName);
     Zone* getPosition();
+    void displayInventory();
+    void changeInvWgt(double* wgtChange);
+    bool isWgtOk(std::string* itemName);
+    bool isItemEquippable(std::string* itemName);
+    void removeFromBackpack(std::string * itemName);
 
     virtual ~Player();
 
     struct Inventory {
-        double invWeight;
-        Item* armor;
-        Item* weapon;
-        Item* shield;
+        double invWeight = 0;
+        Item* armor = nullptr;
+        Item* weapon = nullptr;
+        Item* shield = nullptr;
         vector<Item*> backpack;
     };
 
 private:
     const int MAX_HEALTH = 100;
-    const double INV_WEIGHT_LIMIT = 50.00;
+    const double INV_WEIGHT_LIMIT = 30.00;
 
     Inventory inventory;
     Zone* pPosition;

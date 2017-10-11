@@ -20,6 +20,7 @@ public:
     void show();
     void setVisited(bool);
     void addToZoneInventory(Item*);
+    void removeFromZoneInventory(std::string* itemName);
 
 private:
     Area* description;
