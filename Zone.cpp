@@ -25,27 +25,27 @@ void Zone::setZone(Directions direction, Zone * zoneToConnect) {
     directions[direction] = zoneToConnect;
 }
 
-Zone* Zone::getZone(char direction) {
+Zone* Zone::getZone(ActionType direction) {
     Directions dir;
     switch (direction) {
-        case 'n' : {
+        case ActionType::NORTH : {
             dir = NORTH;
             break;
         }
-        case 'e' : {
+        case ActionType::EAST : {
             dir = EAST;
             break;
         }
-        case 's' : {
+        case ActionType::SOUTH : {
             dir = SOUTH;
             break;
         }
-        case 'w' : {
+        case ActionType::WEST : {
             dir = WEST;
             break;
         }
         default: {
-            std::cout<<"cant return valid direction for: " << direction << std::endl;
+            std::cout<<"cant return valid direction" << std::endl;
             return nullptr;
         }
     }

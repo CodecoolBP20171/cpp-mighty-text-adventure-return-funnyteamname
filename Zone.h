@@ -6,6 +6,7 @@
 #include "vector"
 #include "Enemy.h"
 #include "Area.hpp"
+#include "ActionType.h"
 
 enum Directions{NORTH, EAST, SOUTH, WEST, endMark};
 
@@ -13,7 +14,7 @@ class Zone {
 public:
     Zone(Area *description);
     Enemy* getEnemy(std::string * enemy);
-    Zone* getZone(char direction);
+    Zone* getZone(ActionType);
     void setZone (Directions , Zone *);
     void show();
     void setVisited(bool);

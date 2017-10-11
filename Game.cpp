@@ -44,7 +44,7 @@ void Game::init()
     loadZones();
     linkZones();
 
-    player.moveTo(startZone);
+    player.setPosition(startZone);
 }
 
 void Game::loadAreas()

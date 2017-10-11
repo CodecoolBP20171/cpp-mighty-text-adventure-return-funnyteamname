@@ -14,7 +14,6 @@ using namespace std;
 
 class Game {
 public:
-    Game();
     void init();
     void run();
     /*
