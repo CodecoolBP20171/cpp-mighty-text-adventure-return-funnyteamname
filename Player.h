@@ -5,11 +5,15 @@
 #include "Zone.h"
 #include "Item.h"
 #include "Enemy.h"
-#include "vector"
-#include "map"
+#include <vector>
+#include <map>
 
 class Player {
 public:
+    Player(Zone *pPosition);
+
+    Player();
+
     void attack(Enemy enemy);
     void moveTo(Zone* destination);
     void equip(Item* itemToEquip );
@@ -18,12 +22,19 @@ public:
     void changeHealth(short &damage);
     void use(Item itemToUse);
     void pickup(Item itemToPickup);
+    Zone getPosition();
+
+    virtual ~Player();
+
 private:
+    const int MAX_HEALTH = 100;
+    const double INV_WEIGHT_LIMIT = 50.00;
+
     std::vector<Item> inventory;
-    std::map<enum type, Item> equipped;
+    //std::map<enum type, Item> equipped;
     Zone* pPosition;
     short health;
-    double invWeightLimit;
+    double invWeight;
 };
 
 

@@ -13,7 +13,7 @@ private:
     std::string description;
     bool equippable;
     bool consumable;
-    enum type;
+    //enum type;
     short attack;
     short defense;
 };
