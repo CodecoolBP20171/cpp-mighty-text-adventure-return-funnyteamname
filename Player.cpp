@@ -34,6 +34,10 @@ Zone* Player::getPosition() {
     return pPosition;
 }
 
+short Player::getHealth() {
+    return health;
+}
+
 Player::~Player() {
 }
 

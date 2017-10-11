@@ -60,7 +60,7 @@ void Game::loadAreas()
 
 void Game::run()
 {
-    while(!step()){
+    while(Game::isGameOn()){
         player.getPosition()->show();
         parseInput();
         handleCommand();
@@ -69,9 +69,9 @@ void Game::run()
     }
 }
 
-bool Game::step()
+bool Game::isGameOn()
 {
-    return false;
+    return player.getHealth() > 0 && player.getPosition() != endZone;
 }
 
 void Game::parseInput() {
