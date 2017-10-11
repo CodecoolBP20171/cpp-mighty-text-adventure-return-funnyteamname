@@ -3,7 +3,7 @@
 //
 
 #include "Zone.h"
-
+#include <iostream>
 
 
 Zone::Zone(Area *description) : description(description) {
@@ -11,6 +11,10 @@ Zone::Zone(Area *description) : description(description) {
     for (int i = 0; i < 4; ++i ) {
         directions[i] = nullptr;
     };
+}
+
+Enemy* Zone::getEnemy(std::string *enemy) {
+    return nullptr;
 }
 
 void Zone::setVisited(bool isItVisited) {
@@ -52,5 +56,3 @@ void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
 }
-
-

@@ -3,6 +3,7 @@
 //
 
 #include "Player.h"
+#include <iostream>
 
 Player::Player() {}
 
@@ -10,6 +11,10 @@ Player::Player(Zone *pPosition) : pPosition(pPosition) {
     health = MAX_HEALTH;
     invWeight = 0.00;
 
+}
+
+Enemy *Player::getNearbyEnemy(std::string * enemyName) {
+    //return pPosition->getEnemy(std::string * enemyName);
 }
 
 void Player::changeHealth(short &damage) {
@@ -40,4 +45,3 @@ Player::~Player() {
     }
 }
 */
-

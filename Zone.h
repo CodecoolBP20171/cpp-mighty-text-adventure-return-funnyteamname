@@ -12,7 +12,7 @@ enum Directions{NORTH, EAST, SOUTH, WEST, endMark};
 class Zone {
 public:
     Zone(Area *description);
-
+    Enemy* getEnemy(std::string * enemy);
     Zone* getZone(char direction);
     void setZone (Directions , Zone *);
     void show();
