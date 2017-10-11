@@ -52,7 +52,44 @@ Zone* Zone::getZone(ActionType direction) {
     return directions[dir];
 }
 
+void Zone::printDirections() {
+    std::cout << "From here routes are leading to the ";
+    int validDirections = 0;
+
+    for (auto &direction : directions) {
+        if (direction != nullptr) ++validDirections;
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        if (directions[i] != nullptr) {
+            std::cout << directionNames[i];
+            switch (validDirections) {
+                case 1 : std::cout << std::endl;
+                    break;
+                case 2 : std::cout << " and ";
+                    break;
+                default: std::cout << ", ";
+            }
+            --validDirections;
+        }
+    }
+}
+
+void Zone::printItems() {
+    if ( !inventory.empty() ) {
+        std::cout << "You can see in this room the following stuffs: ";
+        for(int i = 0; i < inventory.size(); ++i) {
+            std::cout << inventory[i]->getName();
+            if ( i != inventory.size()-1 ) std::cout << ", ";
+            else std::cout << std::endl;
+        }
+    }
+}
+
 void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
+    // monsters to attack
+    printDirections();
+    printItems();
 }

@@ -20,9 +20,13 @@ public:
     void setVisited(bool);
 
 private:
+    const std::string directionNames[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    void printMonsters();
+    void printDirections();
+    void printItems();
     Area* description;
     Zone* directions[4];
-    std::vector<Item> inventory;
+    std::vector<Item *> inventory;
     bool visited;
     std::vector<Enemy> enemies;
 };
