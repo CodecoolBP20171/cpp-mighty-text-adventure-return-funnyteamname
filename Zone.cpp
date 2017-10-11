@@ -49,7 +49,8 @@ Zone* Zone::getZone(char direction) {
 }
 
 void Zone::show() {
-    std::cout << description << std::endl;
+    const string *room = (*description).getDescription();
+    std::cout << *room << std::endl;
 }
 
 

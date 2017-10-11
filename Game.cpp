@@ -38,7 +38,7 @@ void Game::init()
     loadZones();
     linkZones();
 
-    player = Player(startZone);
+    player.moveTo(startZone);
 }
 
 void Game::loadAreas()
@@ -54,13 +54,21 @@ void Game::loadAreas()
 
 void Game::run()
 {
-    while(!step()){
+    bool exit = false;
+    while(! exit){
         // for testing
         player.getPosition().show();
+        player.moveTo(player.getPosition().getZone('e'));
+        player.getPosition().show();
+        exit = true;
     }
 }
 
 bool Game::step()
 {
     return true;
+}
+
+Game::Game() {
+
 }

@@ -12,6 +12,8 @@ class Player {
 public:
     Player(Zone *pPosition);
 
+    Player();
+
     void attack(Enemy enemy);
     void moveTo(Zone* destination);
     void equip(Item* itemToEquip );

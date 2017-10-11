@@ -4,6 +4,8 @@
 
 #include "Player.h"
 
+Player::Player() {}
+
 Player::Player(Zone *pPosition) : pPosition(pPosition) {
     health = MAX_HEALTH;
     invWeight = 0.00;
@@ -14,10 +16,9 @@ void Player::changeHealth(short &damage) {
     health += damage;
 }
 
-void Player::moveTo(Zone & destination) {
-    pPosition = & destination;
-
-    *pPosition.setVisited(true);
+void Player::moveTo(Zone* destination) {
+    pPosition = destination;
+    (*pPosition).setVisited(true);
 }
 
 Zone Player::getPosition() {
