@@ -7,18 +7,21 @@
 #include "Enemy.h"
 #include "Area.hpp"
 
+enum Directions{NORTH, EAST, SOUTH, WEST, endMark};
+
 class Zone {
 public:
-    void setDescription(Area* area);
-    Zone* getDirection(char direction);
+    Zone(Area *description);
     Enemy* getEnemy(std::string * enemy);
+    Zone* getZone(char direction);
+    void setZone (Directions , Zone *);
+    void show();
+    void setVisited(bool);
+
 private:
     Area* description;
-    Zone* north;
-    Zone* east;
-    Zone* south;
-    Zone* west;
-    std::vector<Item> Inventory;
+    Zone* directions[4];
+    std::vector<Item> inventory;
     bool visited;
     std::vector<Enemy> enemies;
 };
