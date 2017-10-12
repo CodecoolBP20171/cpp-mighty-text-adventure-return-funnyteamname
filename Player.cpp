@@ -46,46 +46,54 @@ void Player::pickup(std::string *item) {
 }
 
 void Player::displayInventory() {
-    if (inventory.armor != nullptr) std::cout << "Armor: " << (inventory.armor->getName()) << std::endl;
-    if (inventory.weapon != nullptr) std::cout << "Weapon: " << (inventory.weapon->getName()) << std::endl;
-    if (inventory.shield != nullptr) std::cout << "shield: " << (inventory.shield->getName()) << std::endl;
+    if (inventory.armor != nullptr) std::cout << "Armor: " << *(inventory.armor->getName()) << std::endl;
+    if (inventory.weapon != nullptr) std::cout << "Weapon: " << *(inventory.weapon->getName()) << std::endl;
+    if (inventory.shield != nullptr) std::cout << "shield: " << *(inventory.shield->getName()) << std::endl;
     for (int i = 0; i < inventory.backpack.size(); ++i) {
-        std::cout << "backpack: " << *(inventory.backpack[i]->getName()) << std::endl;
+        if(nullptr != inventory.backpack[i]) std::cout << "backpack: " << *(inventory.backpack[i]->getName()) << std::endl;
     }
 }
 
 void Player::changeInvWgt(double *wgtChange) {
-    std::cout << "changing inv wgt" << *wgtChange << std::endl;
     this->inventory.invWeight += *wgtChange;
 }
 
 bool Player::isWgtOk(std::string *itemName) {
     Item* itemToCheck = pPosition->getItem(itemName);
-    std::cout << "wgt: " << inventory.invWeight << std::endl;
     return inventory.invWeight + *(itemToCheck->getWeight()) < INV_WEIGHT_LIMIT;
 }
 
 void Player::equip(std::string *itemName) {
     Item* itemToEquip = getItemFromInventory(itemName);
+    std::string itemToUnequip;
     if(itemToEquip->getType() == ItemType::SHIELD) {
         if(nullptr != inventory.shield) {
-            unequip(inventory.shield->getName());
+            itemToUnequip = *inventory.shield->getName();
+            itemToUnequip = switchToLowerCase(itemToUnequip);
+            unequip(&itemToUnequip);
         }
         inventory.shield = itemToEquip;
+        updateDefense(*itemToEquip->getDefense());
         removeFromBackpack(itemName);
     }
     if(itemToEquip->getType() == ItemType::WEAPON) {
         if(nullptr != inventory.weapon) {
-            unequip(inventory.weapon->getName());
+            itemToUnequip = *inventory.weapon->getName();
+            itemToUnequip = switchToLowerCase(itemToUnequip);
+            unequip(&itemToUnequip);
         }
         inventory.weapon = itemToEquip;
+        updateDamage(*itemToEquip->getAttack());
         removeFromBackpack(itemName);
     }
     if(itemToEquip->getType() == ItemType::ARMOR) {
         if(nullptr != inventory.armor) {
-            unequip(inventory.armor->getName());
+            itemToUnequip = *inventory.armor->getName();
+            itemToUnequip = switchToLowerCase(itemToUnequip);
+            unequip(&itemToUnequip);
         }
         inventory.armor = itemToEquip;
+        updateDefense(*itemToEquip->getDefense());
         removeFromBackpack(itemName);
     }
 }
@@ -102,25 +110,39 @@ bool Player::isItemEquippable(std::string *itemName) {
 }
 
 Item *Player::getItemFromInventory(std::string *itemName) {
+    std::string existingItem;
+
+    if(nullptr != inventory.armor) {
+        existingItem = switchToLowerCase(*(inventory.armor->getName()));
+        if(existingItem == *itemName) {
+            return inventory.armor;
+        }
+    }
+
+    if(nullptr != inventory.shield) {
+        existingItem = switchToLowerCase(*inventory.shield->getName());
+        if(existingItem == *itemName) {
+            return inventory.shield;
+        }
+    }
+
+    if(nullptr != inventory.weapon) {
+        existingItem = switchToLowerCase(*(inventory.weapon->getName()));
+        if(existingItem == *itemName) {
+            return inventory.weapon;
+        }
+    }
 
     for(Item* item: inventory.backpack) {
-        std::string existingItem = *(item->getName());
-        for (int i = 0; i < existingItem.length(); ++i) {
-            existingItem[i] = std::tolower(existingItem[i]);
-        }
-        if(existingItem == *itemName) {
-            return item;
-        }
+        existingItem = switchToLowerCase(*(item->getName()));
+        if(existingItem == *itemName) return item;
     }
     return nullptr;
 }
 
 void Player::removeFromBackpack(std::string *itemName) {
     for (int i = 0; i < inventory.backpack.size() ; ++i) {
-        std::string existingItem = *(inventory.backpack[i]->getName());
-        for (int i = 0; i < existingItem.length(); ++i) {
-            existingItem[i] = std::tolower(existingItem[i]);
-        }
+        std::string existingItem = switchToLowerCase(*(inventory.backpack[i]->getName()));
         if(existingItem == *itemName) {
             inventory.backpack.erase(inventory.backpack.begin()+i);
         }
@@ -129,9 +151,62 @@ void Player::removeFromBackpack(std::string *itemName) {
 }
 
 void Player::unequip(std::string *itemName) {
+    Item* itemToUnequip = getItemFromInventory(itemName);
+    if(inventory.weapon == itemToUnequip) {
+        updateDamage(*itemToUnequip->getAttack() * -1);
+        inventory.backpack.push_back(itemToUnequip);
+        inventory.weapon = nullptr;
+    } else if(inventory.shield == itemToUnequip) {
+        updateDefense(*itemToUnequip->getDefense() * -1);
+        inventory.backpack.push_back(itemToUnequip);
+        inventory.shield = nullptr;
+    } else if(inventory.armor == itemToUnequip) {
+        updateDefense(*itemToUnequip->getDefense() * -1);
+        inventory.backpack.push_back(itemToUnequip);
+        inventory.armor = nullptr;
+    } else {
+        std::cout << *itemName << " cannot be unequipped";
+    }
+}
+
+bool Player::isItemUnequippable(std::string *itemName) {
+    Item* itemToCheck = getItemFromInventory(itemName);
+    if(nullptr != itemToCheck) {
+        return inventory.shield == itemToCheck ||
+            inventory.armor == itemToCheck ||
+            inventory.weapon == itemToCheck;
+    }
+}
+
+std::string Player::switchToLowerCase(std::string itemName) {
+    std::string existingItem = itemName;
+    for (int i = 0; i < itemName.length() ; ++i) {
+        existingItem[i] = std::tolower(existingItem[i]);
+    }
+    return existingItem;
+
 
 }
 
+void Player::drop(std::string *itemName) {
+    Item* itemToDrop = getItemFromInventory(itemName);
+    if(inventory.armor == itemToDrop ||
+       inventory.weapon == itemToDrop ||
+       inventory.shield == itemToDrop){
+        unequip(itemName);
+    }
+    pPosition->addToZoneInventory(itemToDrop);
+    removeFromBackpack(itemName);
+
+}
+
+void Player::updateDamage(short weaponDamage) {
+    damage += weaponDamage;
+}
+
+void Player::updateDefense(short itemDefense) {
+    defense += itemDefense;
+}
 
 
 

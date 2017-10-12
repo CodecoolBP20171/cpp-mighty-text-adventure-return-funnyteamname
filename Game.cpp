@@ -192,8 +192,27 @@ bool Game::isCommandValid() {
         return true;
     }
 
-    if(nextCommand.action == ActionType::UNEQUIP) return false;
-    if(nextCommand.action == ActionType::DROP) return false;
+    if(nextCommand.action == ActionType::UNEQUIP) {
+        if(nullptr == player.getItemFromInventory(&nextCommand.object)) {
+            std::cout << "You do not have " << nextCommand.object << " in your inventory." << std::endl;
+            return false;
+        }
+        if(nullptr != player.getItemFromInventory(&nextCommand.object) && !player.isItemUnequippable(&nextCommand.object)) {
+            std::cout << "Cannot unequip " << nextCommand.object << ", because it is not equipped." << std::endl;
+            return false;
+        }
+        return true;
+    }
+    if(nextCommand.action == ActionType::DROP){
+        if(nextCommand.object != ""  && nullptr == player.getItemFromInventory(&nextCommand.object)) {
+            std::cout << "You do not have " << nextCommand.object << " in your inventory." << std::endl;
+            return false;
+        } else if(nextCommand.object == "") {
+            std::cout << "Specify an item to drop." << std::endl;
+            return false;
+        }
+        return true;
+    }
     if(nextCommand.action == ActionType::USE) return false;
 
     return isCommandADirection() && nextCommand.object.empty() && isDirectionValid(nextCommand.action);
@@ -218,7 +237,7 @@ void Game::handleCommand() {
         case ActionType::DROP:
             std::cout << "player drops: " << std::endl;
                 std::cout << "object: " << nextCommand.object << std::endl;
-                // player.drop(player.getItemFromInventory(&nextCommand.listOfObjects[i]));
+                player.drop(&nextCommand.object);
             break;
         case ActionType::EQUIP:
             std::cout << "player equips: " << nextCommand.object << std::endl;
@@ -226,8 +245,8 @@ void Game::handleCommand() {
             break;
         case ActionType::UNEQUIP:
             std::cout << "player unequips: " << std::endl;
-                std::cout << "object: " << nextCommand.object << std::endl;
-                //player.unequip(player.getItemFromInventory(&nextCommand.listOfObjects[k]));
+            std::cout << "object: " << nextCommand.object << std::endl;
+            player.unequip(&nextCommand.object);
             break;
         case ActionType::NORTH:
             std::cout << "player goes north... " << std::endl;
@@ -275,7 +294,7 @@ void Game::randomizeItemLocations() {
     srand(time(NULL));
     for (int i = 0; i < items.size(); ++i) {
         int randomIndex = rand() % (zones.size()-1);
-        zones[randomIndex].addToZoneInventory(&items[i]);
+        zones[0].addToZoneInventory(&items[i]); // everything is put in the 1st zone now!
     }
 }
 

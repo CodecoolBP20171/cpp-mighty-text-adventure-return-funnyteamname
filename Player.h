@@ -16,7 +16,7 @@ public:
     void moveTo(ActionType direction);
     void equip(std::string* itemName);
     void unequip(std::string* itemName);
-    void drop(Item* itemToDrop);
+    void drop(std::string* itemName);
     void changeHealth(short &damage);
     void use(Item* itemToUse);
     void pickup(std::string * item);
@@ -28,7 +28,13 @@ public:
     void changeInvWgt(double* wgtChange);
     bool isWgtOk(std::string* itemName);
     bool isItemEquippable(std::string* itemName);
+    bool isItemUnequippable(std::string* itemName);
     void removeFromBackpack(std::string * itemName);
+    std::string switchToLowerCase(std::string itemName);
+    void updateDamage(short weaponDamage);
+    void updateDefense(short itemDefense);
+
+
 
     virtual ~Player();
 
@@ -44,6 +50,8 @@ private:
     const int MAX_HEALTH = 100;
     const double INV_WEIGHT_LIMIT = 30.00;
 
+    short damage;
+    short defense;
     Inventory inventory;
     Zone* pPosition;
     short health;
