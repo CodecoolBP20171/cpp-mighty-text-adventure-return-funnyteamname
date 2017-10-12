@@ -244,7 +244,7 @@ void Game::handleCommand() {
 
     switch (nextCommand.action) {
         case ActionType::HELP:
-
+            displayHelp(&nextCommand.object);
             break;
         case ActionType::ATTACK:
             std::cout << "You attack the " << nextCommand.object << std::endl;
@@ -330,7 +330,27 @@ bool Game::isItemPickupable(std::string *itemName) {
 }
 
 void Game::displayHelp(std::string* command) {
-    std::cout << "";
+    if(nullptr == command || *command == "") {
+        std::cout << "Use the letters or full word (non case sensitive) of the four cardinal directions to move around the level.\n";
+        std::cout << "The following commands can interact with the world: attack, pickup, equip, drop, unequip, use.\n";
+        std::cout << "You can get specific help appropriate for each command by typing \"help commandname\".\n";
+    } else if (*command == "attack") {
+        std::cout << "Specify the name of the enemy to attack it.\n";
+    } else if (*command == "pickup"){
+        std::cout << "Specify the name of the item to pick up if its weight won't make you over encumbered.\n";
+    } else if(*command == "equip") {
+        std::cout << "Specify the name of the item to equip. If you already have another item equipped in the target slot\n";
+        std::cout << "then that item will be unequipped and placed in your backpack first.\n";
+    } else if(*command == "drop") {
+        std::cout << "Specify item to drop. If the item that you try to drop is equipped, it will be unequipped first\n";
+        std::cout << "then placed on the ground.\n";
+    } else if(*command == "unequip") {
+        std::cout << "Specify item to unequip it. It will be removed from the corresponding slot and placed in your backpack.\n";
+    } else if(*command == "use") {
+        std::cout << "Specify item to use. Consumables are removed from your inventory afterwards.";
+    } else {
+        std::cout << "Invalid command specified after help.";
+    }
 }
 
 
