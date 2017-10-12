@@ -15,12 +15,21 @@ class Zone {
 public:
     Zone(Area *description, std::pair<int,int> coords);
     Enemy* getEnemy(std::string * enemy);
+    Item* getItem(std::string*);
     Zone* getZone(ActionType);
     std::pair<int,int> getCoords();
     void setZone (Directions , Zone *);
     void show();
     void setVisited(bool);
     bool isVisited();
+    void addToZoneInventory(Item*);
+    void removeFromZoneInventory(std::string* itemName);
+
+    Item *getUnlockedBy() const;
+
+    void setUnlockedBy(Item *unlockedBy);
+    bool getIsDirectionOpen(ActionType direction) ;
+    void setIsDirectionOpen(ActionType* direction, bool isOpen);
 
 private:
     const std::string directionNames[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
@@ -30,9 +39,11 @@ private:
     void printItems();
     Area* description;
     Zone* directions[4];
-    std::vector<Item *> inventory;
+    bool isDirectionOpen[4] = {true, true, true, true};
+    std::vector<Item*> inventory;
     bool visited;
     std::vector<Enemy> enemies;
+    Item* unlockedBy;
 };
 
 

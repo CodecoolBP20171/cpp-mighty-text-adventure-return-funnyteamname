@@ -14,28 +14,49 @@ public:
     Player();
     void attack(Enemy * enemy);
     void moveTo(ActionType direction);
-    void equip(Item* itemToEquip );
-    void unequip(Item* itemToUnequip);
-    void drop(Item* itemToDrop);
+    void equip(std::string* itemName);
+    void unequip(std::string* itemName);
+    void drop(std::string* itemName);
+    short getHealth() const;
     void changeHealth(short &damage);
     void use(Item* itemToUse);
-    void pickup(Item itemToPickup);
+    void pickup(std::string * item);
     void setPosition(Zone*);
     Enemy * getNearbyEnemy(std::string * enemyName);
     Item * getItemFromInventory(std::string * itemName);
     Zone* getPosition();
+    void displayInventory();
+    void changeInvWgt(double* wgtChange);
+    bool isWgtOk(std::string* itemName);
+    bool isItemEquippable(std::string* itemName);
+    bool isItemUnequippable(std::string* itemName);
+    void removeFromBackpack(std::string * itemName);
+    std::string switchToLowerCase(std::string itemName);
+    void updateDamage(short weaponDamage);
+    void updateDefense(short itemDefense);
     short getHealth();
+
+
 
     virtual ~Player();
 
-private:
-    const int MAX_HEALTH = 100;
-    const double INV_WEIGHT_LIMIT = 50.00;
+    struct Inventory {
+        double invWeight = 0;
+        Item* armor = nullptr;
+        Item* weapon = nullptr;
+        Item* shield = nullptr;
+        vector<Item*> backpack;
+    };
 
-    std::vector<Item> inventory;
+private:
+    const short MAX_HEALTH = 100;
+    const double INV_WEIGHT_LIMIT = 30.00;
+
+    short damage;
+    short defense;
+    Inventory inventory;
     Zone* pPosition;
-    short health;
-    double invWeight;
+    short health = MAX_HEALTH;
 };
 
 

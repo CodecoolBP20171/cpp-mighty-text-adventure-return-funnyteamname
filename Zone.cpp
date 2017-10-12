@@ -77,9 +77,9 @@ void Zone::printDirections() {
 
 void Zone::printItems() {
     if ( !inventory.empty() ) {
-        std::cout << "You can see in this room the following stuffs: ";
+        std::cout << "You can see in this room the following items: ";
         for(int i = 0; i < inventory.size(); ++i) {
-            std::cout << inventory[i]->getName();
+            std::cout << *(inventory[i]->getName());
             if ( i != inventory.size()-1 ) std::cout << ", ";
             else std::cout << std::endl;
         }
@@ -101,3 +101,96 @@ void Zone::show() {
 bool Zone::isVisited() {
     return visited;
 }
+
+void Zone::addToZoneInventory(Item * itemToAdd) {
+    this->inventory.emplace_back(itemToAdd);
+}
+
+Item *Zone::getItem(std::string * itemName) {
+    for(Item* item: inventory) {
+        std::string existingItem = *(item->getName());
+        for (int i = 0; i < existingItem.length(); ++i) {
+            existingItem[i] = std::tolower(existingItem[i]);
+        }
+        if(existingItem == *itemName) {
+            return item;
+        }
+    }
+    return nullptr;
+}
+
+void Zone::removeFromZoneInventory(std::string *itemName) {
+    for (int i = 0; i < inventory.size() ; ++i) {
+        std::string existingItem = *(inventory[i]->getName());
+        for (int i = 0; i < existingItem.length(); ++i) {
+            existingItem[i] = std::tolower(existingItem[i]);
+        }
+        if(existingItem == *itemName) {
+            inventory.erase(inventory.begin()+i);
+        }
+    }
+}
+
+Item *Zone::getUnlockedBy() const {
+    return unlockedBy;
+}
+
+void Zone::setUnlockedBy(Item *unlockedBy) {
+    Zone::unlockedBy = unlockedBy;
+}
+
+bool Zone::getIsDirectionOpen(ActionType direction) {
+    Directions dir;
+    switch (direction) {
+        case ActionType::NORTH : {
+            dir = NORTH;
+            break;
+        }
+        case ActionType::EAST : {
+            dir = EAST;
+            break;
+        }
+        case ActionType::SOUTH : {
+            dir = SOUTH;
+            break;
+        }
+        case ActionType::WEST : {
+            dir = WEST;
+            break;
+        }
+        default: {
+            std::cout<<"cant return valid direction" << std::endl;
+        }
+    }
+    return isDirectionOpen[dir];
+}
+
+void Zone::setIsDirectionOpen(ActionType *direction, bool isOpen) {
+    Directions dir;
+    switch (*direction) {
+        case ActionType::NORTH : {
+            dir = NORTH;
+            break;
+        }
+        case ActionType::EAST : {
+            dir = EAST;
+            break;
+        }
+        case ActionType::SOUTH : {
+            dir = SOUTH;
+            break;
+        }
+        case ActionType::WEST : {
+            dir = WEST;
+            break;
+        }
+        default: {
+            std::cout<<"cant return valid direction" << std::endl;
+        }
+    }
+    isDirectionOpen[dir] = isOpen;
+}
+
+
+
+
