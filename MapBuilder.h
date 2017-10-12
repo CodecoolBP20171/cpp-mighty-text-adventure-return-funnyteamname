@@ -19,9 +19,10 @@ private:
 
 public:
     MapBuilder(int, int);
+
     void setMapSize(int, int);
     void drawMap(vector<Zone> &, Zone*& );
-    
+
 };
 
 

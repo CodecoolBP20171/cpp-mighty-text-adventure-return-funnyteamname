@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-Zone::Zone(Area *description) : description(description) {
+Zone::Zone(Area *description, std::pair<int, int> coords) : description(description), coords(coords) {
     visited = false;
     for (int i = 0; i < 4; ++i ) {
         directions[i] = nullptr;
