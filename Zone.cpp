@@ -13,7 +13,16 @@ Zone::Zone(Area *description, std::pair<int, int> coords) : description(descript
     };
 }
 
-Enemy* Zone::getEnemy(std::string *enemy) {
+Enemy* Zone::getEnemy(std::string *enemyName) {
+    for(Enemy* enemy: enemies) {
+        std::string existingItem = *(enemy->getName());
+        for (int i = 0; i < existingItem.length(); ++i) {
+            existingItem[i] = std::tolower(existingItem[i]);
+        }
+        if(existingItem == *enemyName) {
+            return enemy;
+        }
+    }
     return nullptr;
 }
 
@@ -94,6 +103,7 @@ void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
     // monsters to attack
+    printMonsters();
     printDirections();
     printItems();
 }
@@ -189,6 +199,25 @@ void Zone::setIsDirectionOpen(ActionType *direction, bool isOpen) {
         }
     }
     isDirectionOpen[dir] = isOpen;
+}
+
+void Zone::addEnemyToZone(Enemy * enemy) {
+    this->enemies.emplace_back(enemy);
+}
+
+void Zone::printMonsters() {
+    if ( !enemies.empty() ) {
+        std::cout << "Enemy sighted: ";
+        for(int j = 0; j < enemies.size(); ++j) {
+            std::cout << *(enemies[j]->getName()) << " (hp: " << *(enemies[j]->getHealth()) << ")";
+            if ( j != enemies.size()-1 ) std::cout << ", ";
+            else std::cout << std::endl;
+        }
+    }
+}
+
+const vector<Enemy *> &Zone::getEnemies() const {
+    return enemies;
 }
 
 

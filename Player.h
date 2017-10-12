@@ -35,8 +35,11 @@ public:
     void updateDamage(short weaponDamage);
     void updateDefense(short itemDefense);
     short getHealth();
+    short getDamage();
 
+    short getDefense() const;
 
+    void playerGetsAttacked();
 
     virtual ~Player();
 

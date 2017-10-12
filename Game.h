@@ -32,6 +32,7 @@ private:
     void loadAreas();
     void loadZones();
     void loadItems();
+    void loadEnemies();
     void randomizeItemLocations();
     void linkZones();
     void linkTwo(Directions, int , int );
