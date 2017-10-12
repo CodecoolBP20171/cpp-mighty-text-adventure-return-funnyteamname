@@ -80,7 +80,7 @@ void Game::loadItems() {
     items.emplace_back(potionPalinka);
 
     Item brassKey(0.3,
-                  "Brass_Key",
+                  "Brass Key",
                   "An ornate brass key designed to unlock a rough, clumsy lock. A gate perhaps?",
                   ItemType::KEY, 0, 0, UseEffectType::OPEN_DOOR);
     items.emplace_back(brassKey);
@@ -112,8 +112,8 @@ void Game::loadAreas()
 void Game::run()
 {
     ActionType direction = ActionType::EAST;
-    zones[1].setIsDirectionOpen(&direction, false);
-    zones[1].setUnlockedBy(&items[5]);
+    zones[6].setIsDirectionOpen(&direction, false);
+    zones[6].setUnlockedBy(&items[5]);
     MapBuilder levelMap(4,2);
     while(!Game::isGameOn()){
         levelMap.drawMap(zones, startZone, player.getPosition() );
@@ -121,14 +121,13 @@ void Game::run()
         player.displayInventory();
         parseInput();
         handleCommand();
-
-        std::cout << "end of game loop \n";
     }
 }
 
 bool Game::isGameOn()
 {
-    return player.getHealth() > 0 && player.getPosition() != endZone;
+    return player.getHealth() > 0 && player.getPosition() == endZone;
+    //return false;
 }
 
 void Game::parseInput() {
@@ -158,8 +157,9 @@ void Game::parseInput() {
         }
     } while(!isCommandValid());
     // std::cout << "entry was valid\n";
-    std::cout << "action: " << static_cast<int>(nextCommand.action) << endl;
-    std::cout << "object: " << nextCommand.object << std::endl;
+    // std::cout << "action: " << static_cast<int>(nextCommand.action) << endl;
+
+    // std::cout << "object: " << nextCommand.object << std::endl;
 }
 
 ActionType Game::parseAction(std::string *word) {
@@ -173,11 +173,11 @@ ActionType Game::parseAction(std::string *word) {
     if(*word == "unequip") return ActionType::UNEQUIP;
     if(*word == "drop") return ActionType::DROP;
     if(*word == "use") return ActionType::USE;
+    if(*word == "help") return ActionType::HELP;
     return ActionType::INVALID_ENTRY;
 }
 
 bool Game::isCommandValid() {
-    // TODO will need a function to check if the objects to interact with are valid!
     if(nextCommand.action == ActionType::INVALID_ENTRY) {
         std::cout << "Invalid command. Type \"help\" to get further information on the available commands." << std::endl;
       return false;
@@ -236,54 +236,54 @@ bool Game::isCommandValid() {
         }
         return true;
     }
-
+    if(nextCommand.action == ActionType::HELP) return true;
     return isCommandADirection() && nextCommand.object.empty() && isDirectionValid(nextCommand.action);
 }
 
 void Game::handleCommand() {
 
     switch (nextCommand.action) {
+        case ActionType::HELP:
+
+            break;
         case ActionType::ATTACK:
-            std::cout << "player attacks: " << nextCommand.object << std::endl;
+            std::cout << "You attack the " << nextCommand.object << std::endl;
             // player.attack(player.getNearbyEnemy(&nextCommand.listOfObjects[0]));
             break;
         case ActionType::USE:
-            std::cout << "player uses: " << nextCommand.object << std::endl;
+            std::cout << "You use the " << nextCommand.object << std::endl;
             player.use(player.getItemFromInventory(&nextCommand.object));
             break;
         case ActionType::PICKUP:
-            std::cout << "player picks up: " << std::endl;
-            std::cout << "object: " << nextCommand.object << std::endl;
+            std::cout << "You pick up the " << nextCommand.object << std::endl;
             player.pickup(&nextCommand.object);
             break;
         case ActionType::DROP:
-            std::cout << "player drops: " << std::endl;
-                std::cout << "object: " << nextCommand.object << std::endl;
-                player.drop(&nextCommand.object);
+            std::cout << "You drop the " << nextCommand.object << std::endl;
+            player.drop(&nextCommand.object);
             break;
         case ActionType::EQUIP:
-            std::cout << "player equips: " << nextCommand.object << std::endl;
+            std::cout << "You equips the " << nextCommand.object << std::endl;
             player.equip(&nextCommand.object);
             break;
         case ActionType::UNEQUIP:
-            std::cout << "player unequips: " << std::endl;
-            std::cout << "object: " << nextCommand.object << std::endl;
+            std::cout << "You unequips the " << nextCommand.object << std::endl;
             player.unequip(&nextCommand.object);
             break;
         case ActionType::NORTH:
-            std::cout << "player goes north... " << std::endl;
+            std::cout << "You go north... " << std::endl;
             player.moveTo(ActionType::NORTH);
             break;
         case ActionType::EAST:
-            std::cout << "player goes east... " << std::endl;
+            std::cout << "You go east... " << std::endl;
             player.moveTo(ActionType::EAST);
             break;
         case ActionType::SOUTH:
-            std::cout << "player goes south... " << std::endl;
+            std::cout << "You go south... " << std::endl;
             player.moveTo(ActionType::SOUTH);
             break;
         case ActionType::WEST:
-            std::cout << "player goes west... " << std::endl;
+            std::cout << "You go west... " << std::endl;
             player.moveTo(ActionType::WEST);
             break;
     }
@@ -327,6 +327,10 @@ void Game::randomizeItemLocations() {
 
 bool Game::isItemPickupable(std::string *itemName) {
     return nullptr != player.getPosition()->getItem(itemName);
+}
+
+void Game::displayHelp(std::string* command) {
+    std::cout << "";
 }
 
 

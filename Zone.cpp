@@ -77,9 +77,9 @@ void Zone::printDirections() {
 
 void Zone::printItems() {
     if ( !inventory.empty() ) {
-        std::cout << "You can see in this room the following stuffs: ";
+        std::cout << "You can see in this room the following items: ";
         for(int i = 0; i < inventory.size(); ++i) {
-            std::cout << inventory[i]->getName();
+            std::cout << *(inventory[i]->getName());
             if ( i != inventory.size()-1 ) std::cout << ", ";
             else std::cout << std::endl;
         }

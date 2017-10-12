@@ -56,9 +56,12 @@ void Player::displayInventory() {
     if (inventory.armor != nullptr) std::cout << "Armor: " << *(inventory.armor->getName()) << std::endl;
     if (inventory.weapon != nullptr) std::cout << "Weapon: " << *(inventory.weapon->getName()) << std::endl;
     if (inventory.shield != nullptr) std::cout << "shield: " << *(inventory.shield->getName()) << std::endl;
+    if (inventory.backpack.size() != 0) std::cout << "Backpack contents: ";
     for (int i = 0; i < inventory.backpack.size(); ++i) {
-        if(nullptr != inventory.backpack[i]) std::cout << "backpack: " << *(inventory.backpack[i]->getName()) << std::endl;
+        if(nullptr != inventory.backpack[i]) std::cout << *(inventory.backpack[i]->getName());
+        if ( i != inventory.backpack.size()-1 ) std::cout << ", ";
     }
+    std::cout << std::endl;
 }
 
 void Player::changeInvWgt(double *wgtChange) {
@@ -239,17 +242,3 @@ short Player::getHealth() const {
     return health;
 }
 
-
-
-/*Level 1 task - some pointer needed & subclasses.
- *
- * void Player::pickup(Item itemToPickup) {
-    if (itemToPickup.getWight() + invWeight <= INV_WEIGHT_LIMIT) {
-        inventory.emplace_back(itemToPickup);
-        invWeight += itemToPickup.getWeight();
-    } else {
-        std::cout <<"You are too weak to pick this up. Drop something or go to the gym." << std::end;
-
-    }
-}
-*/

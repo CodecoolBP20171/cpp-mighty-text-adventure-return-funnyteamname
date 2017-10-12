@@ -16,19 +16,13 @@ class Game {
 public:
     void init();
     void run();
-    /*
-    enum class ActionType{
-        INVALID_ENTRY, NORTH, SOUTH, EAST, WEST, ATTACK, EQUIP, UNEQUIP, DROP, USE
-    };
-     */
     struct Command {
         ActionType action;
         std::string object;
     };
 
 private:
-    // enum ActionType;
-    vector<Area> areas; // areas has only non-changeable information
+    vector<Area> areas;
     vector<Item> items;
     vector<Enemy> enemies;
     vector<Zone> zones;
@@ -42,16 +36,14 @@ private:
     void linkZones();
     void linkTwo(Directions, int , int );
     bool isGameOn();
-    void parseInput(); //TODO:
-                        // for movement: parse direction, check with the player's current Zone
-                        // if direction is ok, then tell Player to move to the pointer that we get from
-                        // the departure zone's corresponding direction
+    void parseInput();
     ActionType parseAction(std::string* action);
     void handleCommand();
     bool isCommandValid();
     bool isCommandADirection();
     bool isDirectionValid(ActionType);
     bool isItemPickupable(std::string* itemName);
+    void displayHelp(std::string* command);
     Command nextCommand;
 };
 
