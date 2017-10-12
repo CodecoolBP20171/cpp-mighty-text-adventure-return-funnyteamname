@@ -19,6 +19,9 @@ Enemy *Player::getNearbyEnemy(std::string * enemyName) {
 
 void Player::changeHealth(short &damage) {
     health += damage;
+    if(health > MAX_HEALTH) {
+        health = MAX_HEALTH;
+    }
 }
 
 void Player::setPosition(Zone * newPosition) {
@@ -206,6 +209,30 @@ void Player::updateDamage(short weaponDamage) {
 
 void Player::updateDefense(short itemDefense) {
     defense += itemDefense;
+}
+
+void Player::use(Item *itemToUse) {
+        if(itemToUse->getUseEffect() == UseEffectType::NONE) {
+            std::cout << "This item has no special uses." << std::endl;
+        } else if(itemToUse->getUseEffect() == UseEffectType::HEAL) {
+            short potionHealAmount = 20;
+            changeHealth(potionHealAmount);
+            std::cout << "Drinking it healed you to " << getHealth() << " health points." << std::endl;
+            std::string itemName = switchToLowerCase(*itemToUse->getName());
+            removeFromBackpack(&itemName);
+        } else if(itemToUse->getUseEffect() == UseEffectType::OPEN_DOOR) {
+            std::cout << "east: " << pPosition->getIsDirectionOpen(ActionType::EAST) << std::endl;
+            if(pPosition->getUnlockedBy() == itemToUse) {
+                ActionType dir = ActionType::EAST;
+                pPosition->setIsDirectionOpen(&dir, true);
+                std::cout << "The way east is now open..." << std::endl;
+                std::cout << "east: " << pPosition->getIsDirectionOpen(ActionType::EAST) << std::endl;
+            }
+        }
+}
+
+short Player::getHealth() const {
+    return health;
 }
 
 

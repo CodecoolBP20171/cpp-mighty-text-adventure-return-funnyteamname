@@ -89,4 +89,66 @@ void Zone::removeFromZoneInventory(std::string *itemName) {
     }
 }
 
+Item *Zone::getUnlockedBy() const {
+    return unlockedBy;
+}
+
+void Zone::setUnlockedBy(Item *unlockedBy) {
+    Zone::unlockedBy = unlockedBy;
+}
+
+bool Zone::getIsDirectionOpen(ActionType direction) {
+    Directions dir;
+    switch (direction) {
+        case ActionType::NORTH : {
+            dir = NORTH;
+            break;
+        }
+        case ActionType::EAST : {
+            dir = EAST;
+            break;
+        }
+        case ActionType::SOUTH : {
+            dir = SOUTH;
+            break;
+        }
+        case ActionType::WEST : {
+            dir = WEST;
+            break;
+        }
+        default: {
+            std::cout<<"cant return valid direction" << std::endl;
+        }
+    }
+    return isDirectionOpen[dir];
+}
+
+void Zone::setIsDirectionOpen(ActionType *direction, bool isOpen) {
+    Directions dir;
+    switch (*direction) {
+        case ActionType::NORTH : {
+            dir = NORTH;
+            break;
+        }
+        case ActionType::EAST : {
+            dir = EAST;
+            break;
+        }
+        case ActionType::SOUTH : {
+            dir = SOUTH;
+            break;
+        }
+        case ActionType::WEST : {
+            dir = WEST;
+            break;
+        }
+        default: {
+            std::cout<<"cant return valid direction" << std::endl;
+        }
+    }
+    isDirectionOpen[dir] = isOpen;
+}
+
+
+
 

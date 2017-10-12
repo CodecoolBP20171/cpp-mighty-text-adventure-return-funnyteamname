@@ -22,12 +22,20 @@ public:
     void addToZoneInventory(Item*);
     void removeFromZoneInventory(std::string* itemName);
 
+    Item *getUnlockedBy() const;
+
+    void setUnlockedBy(Item *unlockedBy);
+    bool getIsDirectionOpen(ActionType direction) ;
+    void setIsDirectionOpen(ActionType* direction, bool isOpen);
+
 private:
     Area* description;
     Zone* directions[4];
+    bool isDirectionOpen[4] = {true, true, true, true};
     std::vector<Item*> inventory;
     bool visited;
     std::vector<Enemy> enemies;
+    Item* unlockedBy;
 };
 
 

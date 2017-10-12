@@ -43,37 +43,37 @@ void Game::loadItems() {
     Item swordWooden(3.0,
                      "Wooden sword",
                      "A near-useless unremarkable wooden sword. Mostly useful for training and not much else",
-                     ItemType::WEAPON, 2, 0);
+                     ItemType::WEAPON, 2, 0, UseEffectType::NONE);
     items.emplace_back(swordWooden);
 
     Item steelSword(8.0,
                     "Fine Steel sword",
                     "A sharp steel sword of excellent craftsmanship.",
-                    ItemType::WEAPON, 8, 0);
+                    ItemType::WEAPON, 8, 0, UseEffectType::NONE);
     items.emplace_back(steelSword);
 
     Item chainArmor(10.0,
                     "Chainmail armor",
                     "Mediocre armor, capable of providing some protection in battle at the cost of some added weight",
-                    ItemType::ARMOR, 0, 10);
+                    ItemType::ARMOR, 0, 10, UseEffectType::NONE);
     items.emplace_back(chainArmor);
 
     Item kiteShield(15.0,
                     "Large Kite Shield",
                     "An old large sturdy wooden kite shield. The front is covered in flecks of blue paint. It has a wooden handle in the back and leather straps hold the arm in place",
-                    ItemType::SHIELD, 0, 20);
+                    ItemType::SHIELD, 0, 20, UseEffectType::NONE);
     items.emplace_back(kiteShield);
 
     Item potionPalinka(1.0,
-                       "Magical Palinka of Forgetfulness",
-                       "Magical potion brewed with ancient wisdom, legend has it, that it makes the imbiber see the world differently...",
-                       ItemType::CONSUMABLE, 0, 0);
+                       "Healing potion",
+                       "Magical potion brewed with ancient wisdom, legend has it, it heals the imbiber but not past their maximum health",
+                       ItemType::CONSUMABLE, 0, 0, UseEffectType::HEAL);
     items.emplace_back(potionPalinka);
 
     Item brassKey(0.3,
                   "Brass_Key",
                   "An ornate brass key designed to unlock a rough, clumsy lock. A gate perhaps?",
-                  ItemType::KEY, 0, 0);
+                  ItemType::KEY, 0, 0, UseEffectType::OPEN_DOOR);
     items.emplace_back(brassKey);
 }
 
@@ -100,6 +100,9 @@ void Game::loadAreas()
 
 void Game::run()
 {
+    ActionType direction = ActionType::EAST;
+    zones[1].setIsDirectionOpen(&direction, false);
+    zones[1].setUnlockedBy(&items[5]);
     while(!step()){
         player.getPosition()->show();
         player.displayInventory();
@@ -213,7 +216,13 @@ bool Game::isCommandValid() {
         }
         return true;
     }
-    if(nextCommand.action == ActionType::USE) return false;
+    if(nextCommand.action == ActionType::USE) {
+        if(nullptr == player.getItemFromInventory(&nextCommand.object)){
+            std::cout << "No valid item specified for command" << std::endl;
+            return false;
+        }
+        return true;
+    }
 
     return isCommandADirection() && nextCommand.object.empty() && isDirectionValid(nextCommand.action);
 }
@@ -227,7 +236,7 @@ void Game::handleCommand() {
             break;
         case ActionType::USE:
             std::cout << "player uses: " << nextCommand.object << std::endl;
-            // player.use(player.getItemFromInventory(&nextCommand.listOfObjects[0]));
+            player.use(player.getItemFromInventory(&nextCommand.object));
             break;
         case ActionType::PICKUP:
             std::cout << "player picks up: " << std::endl;
@@ -284,6 +293,11 @@ bool Game::isDirectionValid(ActionType direction) {
     }
     if(nullptr == player.getPosition()->getZone(direction)) {
         std::cout << "You cannot go " << dirAsStr << " from here..." << std::endl;
+        return false;
+    }
+    if(!player.getPosition()->getIsDirectionOpen(direction)) {
+        std::cout << "east: " << player.getPosition()->getIsDirectionOpen(ActionType::EAST) << std::endl;
+        std::cout << "The way heading " << dirAsStr << " is closed by a large gate." << std::endl;
         return false;
     }
     return true;

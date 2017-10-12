@@ -51,9 +51,25 @@ void Item::setType(ItemType type) {
 Item::Item() {}
 
 Item::Item(double weight, const std::string &name, const std::string &description, ItemType type, short attack,
-           short defense) : weight(weight), name(name), description(description), type(type), attack(attack),
-                            defense(defense) {}
+           short defense, UseEffectType useEffect) : weight(weight), name(name), description(description), type(type), attack(attack),
+                            defense(defense), useEffect(useEffect) {}
 
 ItemType Item::getType() {
     return this->type;
 }
+
+UseEffectType Item::getUseEffect() const {
+    return useEffect;
+}
+/*
+void Item::use(Player* player) {
+    if(useEffect == UseEffectType::NONE) {
+        std::cout << "This item has no special uses." << std::endl;
+    } else if(useEffect == UseEffectType::HEAL) {
+        short potionHealAmount = 20;
+        player->changeHealth(potionHealAmount);
+    } else if(useEffect == UseEffectType::OPEN_DOOR) {
+
+    }
+}
+*/

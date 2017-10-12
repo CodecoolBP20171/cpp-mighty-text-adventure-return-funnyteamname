@@ -3,12 +3,14 @@
 
 #include "iostream"
 #include "ItemType.h"
+#include "UseEffectType.h"
+
 class Item {
 public:
     Item();
 
     Item(double weight, const std::string &name, const std::string &description, ItemType type, short attack,
-         short defense);
+         short defense, UseEffectType useEffect);
 
     std::string* getName();
     double* getWeight();
@@ -16,6 +18,7 @@ public:
     short* getAttack();
     short* getDefense();
     ItemType getType();
+    UseEffectType getUseEffect() const;
 
     void setWeight(double weight);
     void setName(const std::string &name);
@@ -31,6 +34,7 @@ private:
     ItemType type;
     short attack;
     short defense;
+    UseEffectType useEffect;
 };
 
 

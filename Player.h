@@ -17,6 +17,7 @@ public:
     void equip(std::string* itemName);
     void unequip(std::string* itemName);
     void drop(std::string* itemName);
+    short getHealth() const;
     void changeHealth(short &damage);
     void use(Item* itemToUse);
     void pickup(std::string * item);
@@ -47,14 +48,14 @@ public:
     };
 
 private:
-    const int MAX_HEALTH = 100;
+    const short MAX_HEALTH = 100;
     const double INV_WEIGHT_LIMIT = 30.00;
 
     short damage;
     short defense;
     Inventory inventory;
     Zone* pPosition;
-    short health;
+    short health = MAX_HEALTH;
 };
 
 
