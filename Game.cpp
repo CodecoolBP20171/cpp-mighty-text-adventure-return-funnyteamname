@@ -112,8 +112,8 @@ void Game::loadAreas()
 void Game::run()
 {
     ActionType direction = ActionType::EAST;
-    zones[6].setIsDirectionOpen(&direction, false);
-    zones[6].setUnlockedBy(&items[5]);
+    zones[4].setIsDirectionOpen(&direction, false);
+    zones[4].setUnlockedBy(&items[5]);
     MapBuilder levelMap(4,2);
     while(!Game::isGameOn()){
         levelMap.drawMap(zones, startZone, player.getPosition() );
@@ -126,8 +126,14 @@ void Game::run()
 
 bool Game::isGameOn()
 {
-    return player.getHealth() > 0 && player.getPosition() == endZone;
-    //return false;
+    if(player.getPosition() == endZone) {
+        std::cout << "Congratulations! You managed to escape!" << std::endl;
+        return true;
+    } else if(player.getHealth() < 0) {
+        std::cout << "Game over, you failed to survive the dungeon." << std::endl;
+        return true;
+    }
+    return false;
 }
 
 void Game::parseInput() {
@@ -156,10 +162,6 @@ void Game::parseInput() {
             }
         }
     } while(!isCommandValid());
-    // std::cout << "entry was valid\n";
-    // std::cout << "action: " << static_cast<int>(nextCommand.action) << endl;
-
-    // std::cout << "object: " << nextCommand.object << std::endl;
 }
 
 ActionType Game::parseAction(std::string *word) {
