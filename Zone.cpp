@@ -86,10 +86,18 @@ void Zone::printItems() {
     }
 }
 
+std::pair<int,int> Zone::getCoords() {
+    return coords;
+}
+
 void Zone::show() {
     const string *room = (*description).getDescription();
     std::cout << *room << std::endl;
     // monsters to attack
     printDirections();
     printItems();
+}
+
+bool Zone::isVisited() {
+    return visited;
 }

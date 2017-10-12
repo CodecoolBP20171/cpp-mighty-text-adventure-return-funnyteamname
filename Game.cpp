@@ -6,6 +6,7 @@
 #include "vector"
 #include "Player.h"
 #include "ActionType.h"
+#include "MapBuilder.h"
 
 
 void Game::loadZones() {
@@ -42,7 +43,7 @@ void Game::linkZones() {
     linkTwo(EAST,3,4);
     linkTwo(EAST,4,6);
     linkTwo(SOUTH,1,3);
-    linkTwo(SOUTH,1,3);
+    linkTwo(SOUTH,2,4);
 
 }
 
@@ -52,6 +53,7 @@ void Game::init()
     loadZones();
     linkZones();
 
+    startZone->setVisited(true);
     player.setPosition(startZone);
 }
 
@@ -68,7 +70,9 @@ void Game::loadAreas()
 
 void Game::run()
 {
-    while(Game::isGameOn()){
+    MapBuilder levelMap(4,2);
+    while(!Game::isGameOn()){
+        levelMap.drawMap(zones, startZone, player.getPosition() );
         player.getPosition()->show();
         parseInput();
         handleCommand();

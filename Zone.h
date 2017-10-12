@@ -20,6 +20,7 @@ public:
     void setZone (Directions , Zone *);
     void show();
     void setVisited(bool);
+    bool isVisited();
 
 private:
     const std::string directionNames[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
