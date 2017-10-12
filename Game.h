@@ -41,7 +41,7 @@ private:
     void randomizeItemLocations();
     void linkZones();
     void linkTwo(Directions, int , int );
-    bool step();
+    bool isGameOn();
     void parseInput(); //TODO:
                         // for movement: parse direction, check with the player's current Zone
                         // if direction is ok, then tell Player to move to the pointer that we get from

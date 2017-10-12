@@ -37,6 +37,10 @@ Zone* Player::getPosition() {
     return pPosition;
 }
 
+short Player::getHealth() {
+    return health;
+}
+
 Player::~Player() {
 }
 
@@ -244,7 +248,7 @@ short Player::getHealth() const {
         inventory.emplace_back(itemToPickup);
         invWeight += itemToPickup.getWeight();
     } else {
-        std::cout << or go to the gym." << std::end;
+        std::cout <<"You are too weak to pick this up. Drop something or go to the gym." << std::end;
 
     }
 }

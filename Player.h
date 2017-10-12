@@ -34,6 +34,7 @@ public:
     std::string switchToLowerCase(std::string itemName);
     void updateDamage(short weaponDamage);
     void updateDefense(short itemDefense);
+    short getHealth();
 
 
 

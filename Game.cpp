@@ -2,16 +2,25 @@
 #include <cstring>
 #include "Game.h"
 #include <algorithm>
+#include <utility>
 #include "vector"
 #include "Player.h"
 #include "ActionType.h"
 #include <time.h>
+#include "MapBuilder.h"
 
 
 void Game::loadZones() {
     // nothing serious, just for testing
+    std::pair<int,int> coordinates[7] = {std::make_pair(0,0),
+                                         std::make_pair(0,1),
+                                         std::make_pair(0,2),
+                                         std::make_pair(1,1),
+                                         std::make_pair(1,2),
+                                         std::make_pair(0,3),
+                                         std::make_pair(1,3)};
     for(int i = 0; i < 7; ++i) {
-        zones.emplace_back( Zone( &areas.at(i) ) );
+        zones.emplace_back( Zone( &areas.at(i), coordinates[i] ) );
     }
     startZone = & zones.at(0);
     endZone = & zones.at(6);
@@ -35,7 +44,7 @@ void Game::linkZones() {
     linkTwo(EAST,3,4);
     linkTwo(EAST,4,6);
     linkTwo(SOUTH,1,3);
-    linkTwo(SOUTH,1,3);
+    linkTwo(SOUTH,2,4);
 
 }
 
@@ -84,6 +93,8 @@ void Game::init()
     linkZones();
     loadItems();
     randomizeItemLocations();
+
+    startZone->setVisited(true);
     player.setPosition(startZone);
 }
 
@@ -103,7 +114,9 @@ void Game::run()
     ActionType direction = ActionType::EAST;
     zones[1].setIsDirectionOpen(&direction, false);
     zones[1].setUnlockedBy(&items[5]);
-    while(!step()){
+    MapBuilder levelMap(4,2);
+    while(!Game::isGameOn()){
+        levelMap.drawMap(zones, startZone, player.getPosition() );
         player.getPosition()->show();
         player.displayInventory();
         parseInput();
@@ -113,9 +126,9 @@ void Game::run()
     }
 }
 
-bool Game::step()
+bool Game::isGameOn()
 {
-    return false;
+    return player.getHealth() > 0 && player.getPosition() != endZone;
 }
 
 void Game::parseInput() {
