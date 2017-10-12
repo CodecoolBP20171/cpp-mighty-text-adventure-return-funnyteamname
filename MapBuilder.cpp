@@ -39,7 +39,8 @@ void MapBuilder::drawZone(Zone * zone, Zone * startZone, Zone * currentZone) {
 
 void MapBuilder::drawMap(vector<Zone> & zonesList, Zone * startZone, Zone * currentZone) {
     zones = & zonesList;
-    wanderedMap.str("");
+    wanderedMap.str();
+    wanderedMap << "\nMarauder's Map\n";
 
     for (int i = 0; i < mapHeight ; ++i) {
 
