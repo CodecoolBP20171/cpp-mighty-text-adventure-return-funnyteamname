@@ -15,6 +15,6 @@ set(SOURCE_FILES
         Player.cpp
         Player.h
         Zone.cpp
-        Zone.h)
+        Zone.h MapBuilder.cpp MapBuilder.h)
 
-add_executable(Mighty_text_adventure ${SOURCE_FILES})
+add_executable(Mighty_text_adventure ${SOURCE_FILES} MapBuilder.cpp MapBuilder.h)
