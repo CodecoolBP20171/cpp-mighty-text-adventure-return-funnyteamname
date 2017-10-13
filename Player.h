@@ -6,24 +6,61 @@
 #include "Item.h"
 #include "Enemy.h"
 #include "vector"
-#include "map"
+#include "ActionType.h"
 
 class Player {
 public:
-    void attack(Enemy enemy);
-    void moveTo(Zone* destination);
-    void equip(Item* itemToEquip );
-    void unequip(Item* itemToUnequip);
-    void drop(Item* itemToDrop);
+    Player(Zone *pPosition);
+    Player();
+    virtual ~Player();
+
+    //Actions
+    void attack(Enemy * enemy);
+    void moveTo(ActionType direction);
+    void equip(std::string* itemName);
+    void unequip(std::string* itemName);
+    void drop(std::string* itemName);
+    void pickup(std::string * item);
+    void use(Item* itemToUse);
+
+    //Items
+    Item * getItemFromInventory(std::string * itemName);
+    void displayInventory();
+    void changeInvWgt(double* wgtChange);
+    bool isWgtOk(std::string* itemName);
+    bool isItemEquippable(std::string* itemName);
+    bool isItemUnequippable(std::string* itemName);
+    void removeFromBackpack(std::string * itemName);
+    void updateDamage(short weaponDamage);
+    void updateDefense(short itemDefense);
+
     void changeHealth(short &damage);
-    void use(Item itemToUse);
-    void pickup(Item itemToPickup);
+    void setPosition(Zone*);
+    Zone* getPosition();
+    std::string switchToLowerCase(std::string itemName);
+    short getHealth();
+    short getDamage();
+    short getDefense() const;
+    void playerGetsAttacked();
+
+
+    struct Inventory {
+        double invWeight = 0;
+        Item* armor = nullptr;
+        Item* weapon = nullptr;
+        Item* shield = nullptr;
+        vector<Item*> backpack;
+    };
+
 private:
-    std::vector<Item> inventory;
-    std::map<enum type, Item> equipped;
+    const short MAX_HEALTH = 100;
+    const double INV_WEIGHT_LIMIT = 30.00;
+
+    short damage = 20;
+    short defense = 20;
+    Inventory inventory;
     Zone* pPosition;
-    short health;
-    double invWeightLimit;
+    short health = MAX_HEALTH;
 };
 
 
