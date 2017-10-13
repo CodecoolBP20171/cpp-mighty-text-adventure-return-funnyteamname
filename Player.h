@@ -55,8 +55,8 @@ private:
     const short MAX_HEALTH = 100;
     const double INV_WEIGHT_LIMIT = 30.00;
 
-    short damage;
-    short defense;
+    short damage = 20;
+    short defense = 20;
     Inventory inventory;
     Zone* pPosition;
     short health = MAX_HEALTH;

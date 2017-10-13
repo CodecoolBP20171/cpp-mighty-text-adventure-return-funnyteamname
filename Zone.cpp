@@ -220,6 +220,23 @@ const vector<Enemy *> &Zone::getEnemies() const {
     return enemies;
 }
 
+void Zone::removeEnemyFromZone(Enemy *enemy) {
+    for (int i = 0; i < enemies.size(); ++i) {
+        if(enemies[i] == enemy){
+            enemies.erase(enemies.begin()+i);
+        }
+    }
+}
+
+void Zone::removeDeadEnemies() {
+    for(int j = 0; j < enemies.size(); ++j) {
+        if( *(enemies[j]->getHealth()) <= 0) {
+            std::cout << *(enemies[j]->getName()) << " dies." << std::endl;
+            removeEnemyFromZone(enemies[j]);
+        }
+    }
+}
+
 
 
 

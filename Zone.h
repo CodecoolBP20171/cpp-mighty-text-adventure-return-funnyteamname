@@ -25,8 +25,10 @@ public:
     void addToZoneInventory(Item*);
     void addEnemyToZone(Enemy*);
     void removeFromZoneInventory(std::string* itemName);
+    void removeDeadEnemies();
 
     const vector<Enemy *> &getEnemies() const;
+    void removeEnemyFromZone(Enemy* enemy);
 
     Item *getUnlockedBy() const;
 

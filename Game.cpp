@@ -87,10 +87,10 @@ void Game::loadItems() {
 }
 
 void Game::loadEnemies() {
-    Enemy orc("Orc warrior", 20, 10, 50);
+    Enemy orc("Orc warrior", 40, 10, 50);
     enemies.emplace_back(orc);
 
-    Enemy troll("Cave troll", 30, 5, 120);
+    Enemy troll("Cave troll", 60, 5, 120);
     enemies.emplace_back(troll);
 }
 
@@ -128,6 +128,7 @@ void Game::run()
     MapBuilder levelMap(4,2);
     while(!Game::isGameOn()){
         levelMap.drawMap(zones, startZone, player.getPosition() );
+        player.getPosition()->removeDeadEnemies();
         player.getPosition()->show();
         player.displayInventory();
         parseInput();

@@ -246,6 +246,10 @@ void Player::attack(Enemy *enemy) {
     short damageToDeal = (getDamage() - enemy->getDefense())*-1;
     enemy->setHealth(&damageToDeal);
     std::cout << "Your attack deals " << damageToDeal << " damage." << std::endl;
+    if(enemy->getHealth() < 0) {
+        std::cout << *(enemy->getName()) << " dies." << std::endl;
+        pPosition->removeEnemyFromZone(enemy);
+    }
 }
 
 short Player::getDamage()  {
@@ -264,8 +268,8 @@ void Player::playerGetsAttacked() {
         for(int j = 0; j < pPosition->getEnemies().size(); ++j) {
             damageToTake = (pPosition->getEnemies()[j]->getAttack() - getDefense())*-1;
             std::cout << *(pPosition->getEnemies()[j]->getName()) << " (hp: " << *(pPosition->getEnemies()[j]->getHealth()) << ") deals: ";
-            std::cout << damageToTake << " damage." << std::endl;
             changeHealth(damageToTake);
+            std::cout << damageToTake << " damage. You have " << getHealth() << " hp left." << std::endl;
         }
     }
 }
