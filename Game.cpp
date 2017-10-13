@@ -86,12 +86,21 @@ void Game::loadItems() {
     items.emplace_back(brassKey);
 }
 
+void Game::loadEnemies() {
+    Enemy orc("Orc warrior", 40, 10, 50);
+    enemies.emplace_back(orc);
+
+    Enemy troll("Cave troll", 60, 5, 120);
+    enemies.emplace_back(troll);
+}
+
 void Game::init()
 {
     loadAreas();
     loadZones();
     linkZones();
     loadItems();
+    loadEnemies();
     randomizeItemLocations();
 
     startZone->setVisited(true);
@@ -114,13 +123,17 @@ void Game::run()
     ActionType direction = ActionType::EAST;
     zones[4].setIsDirectionOpen(&direction, false);
     zones[4].setUnlockedBy(&items[5]);
+    zones[1].addEnemyToZone(&enemies[0]);
+    zones[4].addEnemyToZone(&enemies[1]);
     MapBuilder levelMap(4,2);
     while(!Game::isGameOn()){
         levelMap.drawMap(zones, startZone, player.getPosition() );
+        player.getPosition()->removeDeadEnemies();
         player.getPosition()->show();
         player.displayInventory();
         parseInput();
         handleCommand();
+        player.playerGetsAttacked();
     }
 }
 
@@ -184,7 +197,16 @@ bool Game::isCommandValid() {
         std::cout << "Invalid command. Type \"help\" to get further information on the available commands." << std::endl;
       return false;
     }
-    if(nextCommand.action == ActionType::ATTACK) return false;
+    if(nextCommand.action == ActionType::ATTACK) {
+        if(nextCommand.object != "" && nullptr == player.getPosition()->getEnemy(&nextCommand.object)){
+            std::cout << "No enemy with that name found." << std::endl;
+            return false;
+        } else if (nextCommand.object == "") {
+            std::cout << "No target specified." << std::endl;
+            return false;
+        };
+        return true;
+    }
 
     if(nextCommand.action == ActionType::EQUIP) {
         if(nullptr == player.getItemFromInventory(&nextCommand.object)){
@@ -250,7 +272,7 @@ void Game::handleCommand() {
             break;
         case ActionType::ATTACK:
             std::cout << "You attack the " << nextCommand.object << std::endl;
-            // player.attack(player.getNearbyEnemy(&nextCommand.listOfObjects[0]));
+            player.attack(player.getPosition()->getEnemy(&nextCommand.object));
             break;
         case ActionType::USE:
             std::cout << "You use the " << nextCommand.object << std::endl;
@@ -354,6 +376,7 @@ void Game::displayHelp(std::string* command) {
         std::cout << "Invalid command specified after help.";
     }
 }
+
 
 
 

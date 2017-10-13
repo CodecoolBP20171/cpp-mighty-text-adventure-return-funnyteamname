@@ -23,7 +23,12 @@ public:
     void setVisited(bool);
     bool isVisited();
     void addToZoneInventory(Item*);
+    void addEnemyToZone(Enemy*);
     void removeFromZoneInventory(std::string* itemName);
+    void removeDeadEnemies();
+
+    const vector<Enemy *> &getEnemies() const;
+    void removeEnemyFromZone(Enemy* enemy);
 
     Item *getUnlockedBy() const;
 
@@ -42,7 +47,7 @@ private:
     bool isDirectionOpen[4] = {true, true, true, true};
     std::vector<Item*> inventory;
     bool visited;
-    std::vector<Enemy> enemies;
+    std::vector<Enemy*> enemies;
     Item* unlockedBy;
 };
 

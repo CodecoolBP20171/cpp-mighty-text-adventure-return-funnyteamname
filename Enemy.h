@@ -5,9 +5,22 @@
 
 class Enemy {
 public:
-    std::string getName();
+    Enemy(const std::string &name, short attack, short defense, short health);
+    std::string* getName();
+    short getAttack() const;
+    void setAttack(short attack);
+    short getDefense() const;
+    void setDefense(short defense);
+
+    void setHealth(short* health);
+
+    short* getHealth();
+
 private:
     std::string name;
+    short attack;
+    short defense;
+    short health;
 };
 
 

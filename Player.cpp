@@ -242,3 +242,36 @@ short Player::getHealth() const {
     return health;
 }
 
+void Player::attack(Enemy *enemy) {
+    short damageToDeal = (getDamage() - enemy->getDefense())*-1;
+    enemy->setHealth(&damageToDeal);
+    std::cout << "Your attack deals " << damageToDeal << " damage." << std::endl;
+    if(enemy->getHealth() < 0) {
+        std::cout << *(enemy->getName()) << " dies." << std::endl;
+        pPosition->removeEnemyFromZone(enemy);
+    }
+}
+
+short Player::getDamage()  {
+    return damage;
+}
+
+short Player::getDefense() const {
+    return defense;
+}
+
+void Player::playerGetsAttacked() {
+    short damageToTake;
+    pPosition->getEnemies().empty();
+    if (!pPosition->getEnemies().empty()) {
+        std::cout << "Enemy attacks:: ";
+        for(int j = 0; j < pPosition->getEnemies().size(); ++j) {
+            damageToTake = (pPosition->getEnemies()[j]->getAttack() - getDefense())*-1;
+            std::cout << *(pPosition->getEnemies()[j]->getName()) << " (hp: " << *(pPosition->getEnemies()[j]->getHealth()) << ") deals: ";
+            changeHealth(damageToTake);
+            std::cout << damageToTake << " damage. You have " << getHealth() << " hp left." << std::endl;
+        }
+    }
+}
+
+
