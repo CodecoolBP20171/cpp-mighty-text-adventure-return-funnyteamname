@@ -61,15 +61,3 @@ ItemType Item::getType() {
 UseEffectType Item::getUseEffect() const {
     return useEffect;
 }
-/*
-void Item::use(Player* player) {
-    if(useEffect == UseEffectType::NONE) {
-        std::cout << "This item has no special uses." << std::endl;
-    } else if(useEffect == UseEffectType::HEAL) {
-        short potionHealAmount = 20;
-        player->changeHealth(potionHealAmount);
-    } else if(useEffect == UseEffectType::OPEN_DOOR) {
-
-    }
-}
-*/

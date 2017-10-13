@@ -11,10 +11,9 @@ public:
     void setAttack(short attack);
     short getDefense() const;
     void setDefense(short defense);
-
+    short* getHealth();
     void setHealth(short* health);
 
-    short* getHealth();
 
 private:
     std::string name;

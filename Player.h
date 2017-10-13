@@ -12,36 +12,37 @@ class Player {
 public:
     Player(Zone *pPosition);
     Player();
+    virtual ~Player();
+
+    //Actions
     void attack(Enemy * enemy);
     void moveTo(ActionType direction);
     void equip(std::string* itemName);
     void unequip(std::string* itemName);
     void drop(std::string* itemName);
-    short getHealth() const;
-    void changeHealth(short &damage);
-    void use(Item* itemToUse);
     void pickup(std::string * item);
-    void setPosition(Zone*);
-    Enemy * getNearbyEnemy(std::string * enemyName);
+    void use(Item* itemToUse);
+
+    //Items
     Item * getItemFromInventory(std::string * itemName);
-    Zone* getPosition();
     void displayInventory();
     void changeInvWgt(double* wgtChange);
     bool isWgtOk(std::string* itemName);
     bool isItemEquippable(std::string* itemName);
     bool isItemUnequippable(std::string* itemName);
     void removeFromBackpack(std::string * itemName);
-    std::string switchToLowerCase(std::string itemName);
     void updateDamage(short weaponDamage);
     void updateDefense(short itemDefense);
+
+    void changeHealth(short &damage);
+    void setPosition(Zone*);
+    Zone* getPosition();
+    std::string switchToLowerCase(std::string itemName);
     short getHealth();
     short getDamage();
-
     short getDefense() const;
-
     void playerGetsAttacked();
 
-    virtual ~Player();
 
     struct Inventory {
         double invWeight = 0;

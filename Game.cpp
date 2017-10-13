@@ -87,10 +87,10 @@ void Game::loadItems() {
 }
 
 void Game::loadEnemies() {
-    Enemy orc("Orc warrior", 40, 10, 50);
+    Enemy orc("Orc warrior", 30, 10, 50);
     enemies.emplace_back(orc);
 
-    Enemy troll("Cave troll", 60, 5, 120);
+    Enemy troll("Cave troll", 30, 5, 120);
     enemies.emplace_back(troll);
 }
 
@@ -124,15 +124,15 @@ void Game::run()
     zones[4].setIsDirectionOpen(&direction, false);
     zones[4].setUnlockedBy(&items[5]);
     zones[1].addEnemyToZone(&enemies[0]);
-    zones[4].addEnemyToZone(&enemies[1]);
+    zones[3].addEnemyToZone(&enemies[1]);
     MapBuilder levelMap(4,2);
     while(!Game::isGameOn()){
         levelMap.drawMap(zones, startZone, player.getPosition() );
-        player.getPosition()->removeDeadEnemies();
         player.getPosition()->show();
         player.displayInventory();
         parseInput();
         handleCommand();
+        player.getPosition()->removeDeadEnemies();
         player.playerGetsAttacked();
     }
 }
@@ -287,11 +287,11 @@ void Game::handleCommand() {
             player.drop(&nextCommand.object);
             break;
         case ActionType::EQUIP:
-            std::cout << "You equips the " << nextCommand.object << std::endl;
+            std::cout << "You equip the " << nextCommand.object << std::endl;
             player.equip(&nextCommand.object);
             break;
         case ActionType::UNEQUIP:
-            std::cout << "You unequips the " << nextCommand.object << std::endl;
+            std::cout << "You unequip the " << nextCommand.object << std::endl;
             player.unequip(&nextCommand.object);
             break;
         case ActionType::NORTH:
@@ -333,7 +333,6 @@ bool Game::isDirectionValid(ActionType direction) {
         return false;
     }
     if(!player.getPosition()->getIsDirectionOpen(direction)) {
-        std::cout << "east: " << player.getPosition()->getIsDirectionOpen(ActionType::EAST) << std::endl;
         std::cout << "The way heading " << dirAsStr << " is closed by a large gate." << std::endl;
         return false;
     }

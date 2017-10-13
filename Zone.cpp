@@ -3,7 +3,6 @@
 //
 
 #include "Zone.h"
-#include <iostream>
 
 
 Zone::Zone(Area *description, std::pair<int, int> coords) : description(description), coords(coords) {
@@ -35,30 +34,7 @@ void Zone::setZone(Directions direction, Zone * zoneToConnect) {
 }
 
 Zone* Zone::getZone(ActionType direction) {
-    Directions dir;
-    switch (direction) {
-        case ActionType::NORTH : {
-            dir = NORTH;
-            break;
-        }
-        case ActionType::EAST : {
-            dir = EAST;
-            break;
-        }
-        case ActionType::SOUTH : {
-            dir = SOUTH;
-            break;
-        }
-        case ActionType::WEST : {
-            dir = WEST;
-            break;
-        }
-        default: {
-            std::cout<<"cant return valid direction" << std::endl;
-            return nullptr;
-        }
-    }
-    return directions[dir];
+    return directions[getDirIndex(&direction)];
 }
 
 void Zone::printDirections() {
@@ -150,55 +126,11 @@ void Zone::setUnlockedBy(Item *unlockedBy) {
 }
 
 bool Zone::getIsDirectionOpen(ActionType direction) {
-    Directions dir;
-    switch (direction) {
-        case ActionType::NORTH : {
-            dir = NORTH;
-            break;
-        }
-        case ActionType::EAST : {
-            dir = EAST;
-            break;
-        }
-        case ActionType::SOUTH : {
-            dir = SOUTH;
-            break;
-        }
-        case ActionType::WEST : {
-            dir = WEST;
-            break;
-        }
-        default: {
-            std::cout<<"cant return valid direction" << std::endl;
-        }
-    }
-    return isDirectionOpen[dir];
+    return isDirectionOpen[getDirIndex(&direction)];
 }
 
 void Zone::setIsDirectionOpen(ActionType *direction, bool isOpen) {
-    Directions dir;
-    switch (*direction) {
-        case ActionType::NORTH : {
-            dir = NORTH;
-            break;
-        }
-        case ActionType::EAST : {
-            dir = EAST;
-            break;
-        }
-        case ActionType::SOUTH : {
-            dir = SOUTH;
-            break;
-        }
-        case ActionType::WEST : {
-            dir = WEST;
-            break;
-        }
-        default: {
-            std::cout<<"cant return valid direction" << std::endl;
-        }
-    }
-    isDirectionOpen[dir] = isOpen;
+    isDirectionOpen[getDirIndex(direction)] = isOpen;
 }
 
 void Zone::addEnemyToZone(Enemy * enemy) {
@@ -235,6 +167,32 @@ void Zone::removeDeadEnemies() {
             removeEnemyFromZone(enemies[j]);
         }
     }
+}
+
+int Zone::getDirIndex(ActionType *direction) {
+    Directions dir;
+    switch (*direction) {
+        case ActionType::NORTH : {
+            dir = NORTH;
+            break;
+        }
+        case ActionType::EAST : {
+            dir = EAST;
+            break;
+        }
+        case ActionType::SOUTH : {
+            dir = SOUTH;
+            break;
+        }
+        case ActionType::WEST : {
+            dir = WEST;
+            break;
+        }
+        default: {
+            std::cout<<"cant return valid direction" << std::endl;
+        }
+    }
+    return static_cast<int>(dir);
 }
 
 

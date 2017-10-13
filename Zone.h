@@ -14,27 +14,32 @@ enum Directions{NORTH, EAST, SOUTH, WEST, endMark};
 class Zone {
 public:
     Zone(Area *description, std::pair<int,int> coords);
-    Enemy* getEnemy(std::string * enemy);
-    Item* getItem(std::string*);
     Zone* getZone(ActionType);
     std::pair<int,int> getCoords();
-    void setZone (Directions , Zone *);
     void show();
+
+    //Zone settings
+    void setZone (Directions , Zone *);
     void setVisited(bool);
     bool isVisited();
-    void addToZoneInventory(Item*);
-    void addEnemyToZone(Enemy*);
-    void removeFromZoneInventory(std::string* itemName);
-    void removeDeadEnemies();
-
-    const vector<Enemy *> &getEnemies() const;
-    void removeEnemyFromZone(Enemy* enemy);
-
     Item *getUnlockedBy() const;
-
     void setUnlockedBy(Item *unlockedBy);
     bool getIsDirectionOpen(ActionType direction) ;
     void setIsDirectionOpen(ActionType* direction, bool isOpen);
+
+    //Items
+    void addToZoneInventory(Item*);
+    void removeFromZoneInventory(std::string* itemName);
+    Item* getItem(std::string*);
+
+    //Enemies
+    void addEnemyToZone(Enemy*);
+    void removeDeadEnemies();
+    const vector<Enemy *> &getEnemies() const;
+    void removeEnemyFromZone(Enemy* enemy);
+    Enemy* getEnemy(std::string * enemy);
+
+
 
 private:
     const std::string directionNames[4] = {"NORTH", "EAST", "SOUTH", "WEST"};
@@ -49,6 +54,7 @@ private:
     bool visited;
     std::vector<Enemy*> enemies;
     Item* unlockedBy;
+    int getDirIndex(ActionType* direction);
 };
 
 
